@@ -144,8 +144,6 @@ export default {
       // ใช้  this.adsId find db & update lineUid
       const get_adsId_fromCookies = this.getCookie('adsId')
       this.findConvUidAndUpdateLineUid(get_adsId_fromCookies, this._userId)
-
-      this.sendMessage()
     },
 
     async findConvUidAndUpdateLineUid(convUid, lineUid) {
@@ -167,6 +165,7 @@ export default {
 
         const data = await response.json()
         console.log(data)
+        this.sendMessage()
       } catch (error) {
         console.error('Error sending data:', error)
       }
