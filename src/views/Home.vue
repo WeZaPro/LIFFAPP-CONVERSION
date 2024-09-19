@@ -148,6 +148,8 @@ export default {
 
     async findConvUidAndUpdateLineUid(convUid, lineUid) {
       console.log('find and update')
+      console.log('convUid ', convUid)
+      console.log('lineUid ', lineUid)
       try {
         const response = await fetch(import.meta.env.VITE_API_URL + '/findConvUidToUpdateLineUid', {
           method: 'POST',
