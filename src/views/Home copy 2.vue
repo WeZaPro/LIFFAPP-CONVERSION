@@ -3,7 +3,7 @@
     <h1>Login with LINE and Send Message</h1>
     <h3>LINE User ID: {{ userId }}</h3>
     <img v-if="_profilePictureUrl" :src="_profilePictureUrl" alt="Profile Image" width="100" />
-    <button v-if="!userId" @click="loginWithQRCode" class="button expanded-button">Login with LINE</button>
+    <button v-if="!userId" @click="loginWithLINE" class="button expanded-button">Login with LINE</button>
     <button v-if="userId" @click="openLine" class="button expanded-button">Open LINE</button>
     <button v-if="userId" @click="sendMessage" class="button expanded-button">Send Message to LINE Chat</button>
     <button v-if="userId" @click="logout" class="button expanded-button">Logout</button>
@@ -29,46 +29,7 @@ export default {
     }
   },
   methods: {
-    getLineUserProfile(token) {
-      axios
-        .get('https://api.line.me/v2/profile', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then(response => {
-          this._userId = response.data.userId
-
-          // ตั้งค่า cookie ด้วย js-cookie
-          Cookies.set('_userId', this._userId, { expires: 7, path: '/' })
-          // this.lineUid = userId
-          console.log('LINE _userId ID:', this._userId)
-        })
-        .catch(error => {
-          console.error('Error fetching user profile:', error)
-        })
-    },
-    loginWithQRCode() {
-      // const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${
-      //   import.meta.env.VITE_APP_LINE_CHANNEL_ID
-      // }&redirect_uri=${
-      //   import.meta.env.VITE_APP_LINE_REDIRECT_URI
-      // }&state=randomstring&scope=profile%20openid&prompt=consent`
-      // window.location.href = lineLoginUrl
-
-      const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
-      const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_BACKEND_CALLBACK) // ต้องตรงกับที่ลงทะเบียนใน LINE Developers Console
-      const state = 'App123' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
-      const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
-
-      // สร้าง URL สำหรับการล็อกอิน
-      const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}&scope=${scope}&prompt=consent`
-
-      // ทำ redirect ไปยัง URL การล็อกอิน
-      window.location.href = lineLoginUrl
-    },
     // Initialize LIFF SDK
-    // lll
     async initializeLIFF() {
       try {
         // await liff.init({ liffId: '1656824759-KYL5BkQ6' })
@@ -82,9 +43,7 @@ export default {
             console.log('this.profile.displayName:', this._profile.displayName)
           })
         } else {
-          // liff.login() // Redirect to LINE login if not logged in
-          // alert('Please Login')
-          console.log('Login')
+          liff.login() // Redirect to LINE login if not logged in
         }
       } catch (error) {
         console.error('LIFF initialization failed:', error)
@@ -122,7 +81,7 @@ export default {
     openLine() {
       //window.location.href = 'line://ti/p/@454nqxks'
 
-      window.location.href = import.meta.env.VITE_LINE_CHAT_BOT
+      window.location.href = import.meta.env.VITE_LIFF_LINE_CHAT
 
       // ใช้  this.adsId find db & update lineUid
       const get_adsId_fromCookies = this.getCookie('adsId')
@@ -225,26 +184,10 @@ export default {
     },
   },
   created() {
-    // this.initializeLIFF()
-
-    // ดึง token จาก URL query string
-    const urlParams = new URLSearchParams(window.location.search)
-    const token = urlParams.get('token')
-
-    if (token) {
-      // ใช้ token เพื่อเรียก LINE API สำหรับดึงข้อมูลผู้ใช้
-      this.getLineUserProfile(token)
-    } else {
-      console.error('No token found in query string')
-    }
+    this.initializeLIFF()
   },
   mounted() {
     // console.log('VITE_LIFF_ID ', import.meta.env.VITE_LIFF_ID_LOGIN)
-    this.lineUid_fromToken = Cookies.get('_userId')
-    if (this.lineUid_fromToken) {
-      console.log('User ID from cookie:', this.lineUid_fromToken)
-      this._userId = this.lineUid_fromToken
-    }
 
     this.adsId = this.getQueryParam('ads_id')
     console.log(' this.adsId ', this.adsId)
