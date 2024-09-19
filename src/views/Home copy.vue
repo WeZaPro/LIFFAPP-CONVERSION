@@ -1,33 +1,90 @@
 <template>
-  <div id="app">
-    <h1>Login with LINE and Send Message</h1>
-    <h3>LINE User ID: {{ userId }}</h3>
-    <button v-if="!userId" @click="loginWithLINE" class="button expanded-button">Login with LINE</button>
-    <button v-if="userId" @click="openLine" class="button expanded-button">Open LINE</button>
-    <button v-if="userId" @click="sendMessage" class="button expanded-button">Send Message to LINE Chat</button>
-    <button v-if="userId" @click="logout" class="button expanded-button">Logout</button>
+  <div id="container">
+    <!-- <h1>Login with LINE and Send Message</h1>
+    <h3>LINE User ID: {{ userId }}</h3> -->
+    <!-- <img v-if="userId" :src="imgShow" alt="Shop Image" width="300" />
+    <img v-if="userId" :src="imgBanner" alt="Shop Image" width="300" /> -->
+    <div id="app">
+      <img :src="imgShow" alt="Shop Image" width="350" />
+
+      <button v-if="!_userId" @click="loginWithQRCode" class="button">Login with LINE</button>
+      <button v-if="_userId" @click="openLine" class="button">Line Chat</button>
+      <button v-if="_userId" @click="logout" class="button">Logout</button>
+      <img :src="imgBanner" alt="Shop Image" width="300" />
+    </div>
+
+    <!-- <img v-if="_profilePictureUrl" :src="_profilePictureUrl" alt="Profile Image" width="100" /> -->
+
+    <!-- <button v-if="!userId" @click="sendMessage" class="button">Send Message to LINE Chat</button> -->
   </div>
 </template>
 
 <script>
 import liff from '@line/liff'
+import axios from 'axios'
+import Cookies from 'js-cookie'
 
 export default {
   data() {
     return {
+      imgShow:
+        'https://png.pngtree.com/png-vector/20220707/ourmid/pngtree-chatbot-robot-concept-chat-bot-png-image_5632381.png',
+      imgBanner: 'https://www.doctorgarn.com/wp-content/uploads/2024/01/font-2.png',
       _profile: {},
+      _profilePictureUrl: '',
       userId: null,
+      _userId: null,
+      lineUid_fromToken: '',
       accessToken: null,
       adsId: null,
       adsId_cookieValue: null,
-      url: process.env.VITE_LIFF_LOGIN_URL,
-      _clientId: 'YOUR_CLIENT_ID',
-      _clientSecret: 'YOUR_CLIENT_SECRET',
-      _api_sendMessage: process.env.VITE_API_URL + '/send-message',
+      // url: process.env.VITE_LIFF_LOGIN_URL,
+      // _clientId: 'YOUR_CLIENT_ID',
+      // _clientSecret: 'YOUR_CLIENT_SECRET',
+      // _api_sendMessage: process.env.VITE_API_URL + '/send-message',
     }
   },
   methods: {
+    getLineUserProfile(token) {
+      axios
+        .get('https://api.line.me/v2/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(response => {
+          this._userId = response.data.userId
+
+          // ตั้งค่า cookie ด้วย js-cookie
+          Cookies.set('_userId', this._userId, { expires: 7, path: '/' })
+          // this.lineUid = userId
+          console.log('LINE _userId ID:', this._userId)
+        })
+        .catch(error => {
+          console.error('Error fetching user profile:', error)
+        })
+    },
+    loginWithQRCode() {
+      // const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${
+      //   import.meta.env.VITE_APP_LINE_CHANNEL_ID
+      // }&redirect_uri=${
+      //   import.meta.env.VITE_APP_LINE_REDIRECT_URI
+      // }&state=randomstring&scope=profile%20openid&prompt=consent`
+      // window.location.href = lineLoginUrl
+
+      const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_BACKEND_CALLBACK) // ต้องตรงกับที่ลงทะเบียนใน LINE Developers Console
+      const state = 'App123-Cus' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
+      const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
+      const uri = 'https://vue-line-liff-conversion.onrender.com'
+      // สร้าง URL สำหรับการล็อกอิน
+      const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
+
+      // ทำ redirect ไปยัง URL การล็อกอิน
+      window.location.href = lineLoginUrl
+    },
     // Initialize LIFF SDK
+    // lll
     async initializeLIFF() {
       try {
         // await liff.init({ liffId: '1656824759-KYL5BkQ6' })
@@ -41,7 +98,9 @@ export default {
             console.log('this.profile.displayName:', this._profile.displayName)
           })
         } else {
-          liff.login() // Redirect to LINE login if not logged in
+          // liff.login() // Redirect to LINE login if not logged in
+          // alert('Please Login')
+          console.log('Login')
         }
       } catch (error) {
         console.error('LIFF initialization failed:', error)
@@ -68,6 +127,7 @@ export default {
         const profile = await liff.getProfile()
         this.userId = profile.userId
         console.log('userId ', this.userId)
+        this._profilePictureUrl = profile.pictureUrl
         this.setCookie('userId', this.userId, 7)
       } catch (error) {
         console.error('Failed to get user profile:', error)
@@ -78,11 +138,12 @@ export default {
     openLine() {
       //window.location.href = 'line://ti/p/@454nqxks'
 
-      window.location.href = import.meta.env.VITE_LIFF_LINE_CHAT
+      window.location.href = import.meta.env.VITE_LINE_CHAT_BOT
 
       // ใช้  this.adsId find db & update lineUid
       const get_adsId_fromCookies = this.getCookie('adsId')
-      this.findConvUidAndUpdateLineUid(get_adsId_fromCookies, this._profile.userId)
+
+      this.findConvUidAndUpdateLineUid(get_adsId_fromCookies, this._userId)
     },
 
     async findConvUidAndUpdateLineUid(convUid, lineUid) {
@@ -181,10 +242,26 @@ export default {
     },
   },
   created() {
-    this.initializeLIFF()
+    // this.initializeLIFF()
+
+    // ดึง token จาก URL query string
+    const urlParams = new URLSearchParams(window.location.search)
+    const token = urlParams.get('token')
+
+    if (token) {
+      // ใช้ token เพื่อเรียก LINE API สำหรับดึงข้อมูลผู้ใช้
+      this.getLineUserProfile(token)
+    } else {
+      console.error('No token found in query string')
+    }
   },
   mounted() {
     // console.log('VITE_LIFF_ID ', import.meta.env.VITE_LIFF_ID_LOGIN)
+    this.lineUid_fromToken = Cookies.get('_userId')
+    if (this.lineUid_fromToken) {
+      console.log('User ID from cookie:', this.lineUid_fromToken)
+      this._userId = this.lineUid_fromToken
+    }
 
     this.adsId = this.getQueryParam('ads_id')
     console.log(' this.adsId ', this.adsId)
@@ -195,7 +272,7 @@ export default {
 }
 </script>
 
-<style>
+<!-- <style>
 .button {
   display: inline-block;
   padding: 12px 24px;
@@ -216,5 +293,45 @@ export default {
 
 .expanded-button {
   width: 100%;
+}
+</style> -->
+
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+}
+img {
+  margin-top: 10px;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.button {
+  width: 40%;
+  margin: 10px;
+  padding: 10px;
+  font-size: 1.2em;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  background-color: #067904;
+  color: white;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #7a035f;
 }
 </style>
