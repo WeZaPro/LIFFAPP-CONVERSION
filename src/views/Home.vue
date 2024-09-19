@@ -12,10 +12,13 @@
 
 <script>
 import liff from '@line/liff'
+import Cookies from 'js-cookie'
+import axios from 'axios'
 
 export default {
   data() {
     return {
+      lineUid_fromToken: '',
       _profile: {},
       _profilePictureUrl: '',
       userId: null,
