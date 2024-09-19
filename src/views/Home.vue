@@ -27,7 +27,8 @@ import Cookies from 'js-cookie'
 export default {
   data() {
     return {
-      imgShow: 'https://www.doctorgarn.com/wp-content/uploads/2024/01/bg4-03.png',
+      imgShow:
+        'https://png.pngtree.com/png-vector/20220707/ourmid/pngtree-chatbot-robot-concept-chat-bot-png-image_5632381.png',
       imgBanner: 'https://www.doctorgarn.com/wp-content/uploads/2024/01/font-2.png',
       _profile: {},
       _profilePictureUrl: '',
