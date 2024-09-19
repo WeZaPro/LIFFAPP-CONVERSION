@@ -9,7 +9,6 @@
 
       <button v-if="!_userId" @click="loginWithQRCode" class="button">Login with LINE</button>
       <button v-if="_userId" @click="openLine" class="button">Line Chat</button>
-      <!-- <button v-if="_userId" @click="sendMessage" class="button">Send Message to LINE Chat</button> -->
       <button v-if="_userId" @click="logout" class="button">Logout</button>
       <img :src="imgBanner" alt="Shop Image" width="300" />
     </div>
@@ -28,8 +27,7 @@ import Cookies from 'js-cookie'
 export default {
   data() {
     return {
-      imgShow:
-        'https://png.pngtree.com/png-vector/20220707/ourmid/pngtree-chatbot-robot-concept-chat-bot-png-image_5632381.png',
+      imgShow: 'https://storage.googleapis.com/blogs-images-new/ciscoblogs/1/bot.jpg',
       imgBanner: 'https://www.doctorgarn.com/wp-content/uploads/2024/01/font-2.png',
       _profile: {},
       _profilePictureUrl: '',
@@ -55,7 +53,6 @@ export default {
         })
         .then(response => {
           this._userId = response.data.userId
-          console.log('response.data>>>>>>>', response.data)
 
           // ตั้งค่า cookie ด้วย js-cookie
           Cookies.set('_userId', this._userId, { expires: 7, path: '/' })
@@ -76,13 +73,12 @@ export default {
 
       const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
       const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_BACKEND_CALLBACK) // ต้องตรงกับที่ลงทะเบียนใน LINE Developers Console
-      const state = 'AppLiffDemo' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
+      const state = 'App123-Cus' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
       const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
-      const uri = 'https://schoolshopliffweb.onrender.com'
-
+      const uri = 'https://vue-line-liff-conversion.onrender.com'
       // สร้าง URL สำหรับการล็อกอิน
-      // const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${state}&scope=${scope}&prompt=consent`
       const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
+
       // ทำ redirect ไปยัง URL การล็อกอิน
       window.location.href = lineLoginUrl
     },
@@ -145,13 +141,12 @@ export default {
 
       // ใช้  this.adsId find db & update lineUid
       const get_adsId_fromCookies = this.getCookie('adsId')
+
       this.findConvUidAndUpdateLineUid(get_adsId_fromCookies, this._userId)
     },
 
     async findConvUidAndUpdateLineUid(convUid, lineUid) {
       console.log('find and update')
-      console.log('convUid ', convUid)
-      console.log('lineUid ', lineUid)
       try {
         const response = await fetch(import.meta.env.VITE_API_URL + '/findConvUidToUpdateLineUid', {
           method: 'POST',
@@ -167,7 +162,6 @@ export default {
 
         const data = await response.json()
         console.log(data)
-        // this.sendMessage()
       } catch (error) {
         console.error('Error sending data:', error)
       }
@@ -176,16 +170,12 @@ export default {
     // Send a message using Messaging API
     sendMessage() {
       const messagePayload = {
-        to: this._userId,
+        to: this.userId,
         messages: [
           {
             type: 'text',
-            text: 'Hello from Vue.js! | user id : ' + this._userId,
+            text: 'Hello from Vue.js! | user id : ' + this.userId,
           },
-          // {
-          //   type: 'text',
-          //   text: 'XMJ7WeHHv/jhWWGEeDqV3PxO7fuxAtRumykv5/hm4ZqD+dQac2XtZiQySQavmI38CcwkeucAeTgiVRg1nyv6bE95TkrNDURLRYqM1PjmgfkZ7EQHWiBT5/sIAhIs7iyr6FAKSBvTEX3bfmKVVKGB4gdB04t89/1O/w1cDnyilFU=',
-          // },
         ],
       }
 
@@ -218,7 +208,7 @@ export default {
       }
 
       liff.logout()
-      this.userId = null
+      this._userId = null
       this.accessToken = null
       window.location.href = '/'
     },
