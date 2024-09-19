@@ -9,7 +9,8 @@
 
       <button v-if="!_userId" @click="loginWithQRCode" class="button">Login with LINE</button>
       <button v-if="_userId" @click="openLine" class="button">Line Chat</button>
-      <button v-if="userId" @click="logout" class="button">Logout</button>
+      <button v-if="_userId" @click="sendMessage" class="button">Send Message to LINE Chat</button>
+      <button v-if="_userId" @click="logout" class="button">Logout</button>
       <img :src="imgBanner" alt="Shop Image" width="300" />
     </div>
 
