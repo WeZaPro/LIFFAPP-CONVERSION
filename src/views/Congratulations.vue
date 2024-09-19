@@ -2,10 +2,10 @@
   <div class="congratulations">
     <h1>Congratulations!</h1>
     <p>Welcome to our application. We're glad to have you here!</p>
-    <!-- <h3>lineUserId</h3>
-    <p>{{ profile.userId }}</p> -->
-    <h3>bot user id</h3>
-    <p>{{ botUserId }}</p>
+    <h3>lineUserId</h3>
+    <p>{{ profile.userId }}</p>
+    <!-- <h3>bot user id</h3>
+    <p>{{ botUserId }}</p> -->
 
     <button @click="openLineChat" class="button">openLineChat</button>
   </div>
@@ -66,7 +66,7 @@ export default {
     //run liff
     this.qryStringBotUid = this.$route.query.botUserId
     console.log('qryStringBotUid ', this.qryStringBotUid)
-    // this.liffAdd()
+    this.liffAdd()
     // this.getIpAddress()
     // this.getParamUrl()
   },
