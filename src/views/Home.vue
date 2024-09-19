@@ -12,23 +12,26 @@
 
 <script>
 import liff from '@line/liff'
-import Cookies from 'js-cookie'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 export default {
   data() {
     return {
-      lineUid_fromToken: '',
+      imgShow: 'https://www.doctorgarn.com/wp-content/uploads/2024/01/bg4-03.png',
+      imgBanner: 'https://www.doctorgarn.com/wp-content/uploads/2024/01/font-2.png',
       _profile: {},
       _profilePictureUrl: '',
       userId: null,
+      _userId: null,
+      lineUid_fromToken: '',
       accessToken: null,
       adsId: null,
       adsId_cookieValue: null,
-      url: process.env.VITE_LIFF_LOGIN_URL,
-      _clientId: 'YOUR_CLIENT_ID',
-      _clientSecret: 'YOUR_CLIENT_SECRET',
-      _api_sendMessage: process.env.VITE_API_URL + '/send-message',
+      // url: process.env.VITE_LIFF_LOGIN_URL,
+      // _clientId: 'YOUR_CLIENT_ID',
+      // _clientSecret: 'YOUR_CLIENT_SECRET',
+      // _api_sendMessage: process.env.VITE_API_URL + '/send-message',
     }
   },
   methods: {
@@ -244,7 +247,6 @@ export default {
   mounted() {
     // console.log('VITE_LIFF_ID ', import.meta.env.VITE_LIFF_ID_LOGIN)
     this.lineUid_fromToken = Cookies.get('_userId')
-
     if (this.lineUid_fromToken) {
       console.log('User ID from cookie:', this.lineUid_fromToken)
       this._userId = this.lineUid_fromToken
@@ -259,7 +261,7 @@ export default {
 }
 </script>
 
-<style>
+<!-- <style>
 .button {
   display: inline-block;
   padding: 12px 24px;
@@ -280,5 +282,45 @@ export default {
 
 .expanded-button {
   width: 100%;
+}
+</style> -->
+
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+}
+img {
+  margin-top: 10px;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+
+.button {
+  width: 40%;
+  margin: 10px;
+  padding: 10px;
+  font-size: 1.2em;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  background-color: #067904;
+  color: white;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #7a035f;
 }
 </style>
