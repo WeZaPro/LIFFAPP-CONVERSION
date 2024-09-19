@@ -209,7 +209,7 @@ export default {
       }
 
       liff.logout()
-      this.userId = null
+      this._userId = null
       this.accessToken = null
       window.location.href = '/'
     },
