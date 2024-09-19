@@ -175,11 +175,11 @@ export default {
     // Send a message using Messaging API
     sendMessage() {
       const messagePayload = {
-        to: this.userId,
+        to: this._userId,
         messages: [
           {
             type: 'text',
-            text: 'Hello from Vue.js! | user id : ' + this.userId,
+            text: 'Hello from Vue.js! | user id : ' + this._userId,
           },
           {
             type: 'text',
