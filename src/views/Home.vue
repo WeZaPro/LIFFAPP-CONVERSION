@@ -55,6 +55,7 @@ export default {
         })
         .then(response => {
           this._userId = response.data.userId
+          console.log('response.data>>>>>>>', response.data)
 
           // ตั้งค่า cookie ด้วย js-cookie
           Cookies.set('_userId', this._userId, { expires: 7, path: '/' })
