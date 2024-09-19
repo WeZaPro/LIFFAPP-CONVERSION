@@ -167,7 +167,7 @@ export default {
 
         const data = await response.json()
         console.log(data)
-        this.sendMessage()
+        // this.sendMessage()
       } catch (error) {
         console.error('Error sending data:', error)
       }
