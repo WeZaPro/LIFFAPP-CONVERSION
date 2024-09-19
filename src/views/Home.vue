@@ -143,7 +143,7 @@ export default {
 
       // ใช้  this.adsId find db & update lineUid
       const get_adsId_fromCookies = this.getCookie('adsId')
-      this.findConvUidAndUpdateLineUid(get_adsId_fromCookies, this._profile.userId)
+      this.findConvUidAndUpdateLineUid(get_adsId_fromCookies, this._userId)
     },
 
     async findConvUidAndUpdateLineUid(convUid, lineUid) {
