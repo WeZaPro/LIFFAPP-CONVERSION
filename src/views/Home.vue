@@ -1,12 +1,21 @@
 <template>
-  <div id="app">
-    <h1>Login with LINE and Send Message</h1>
-    <h3>LINE User ID: {{ userId }}</h3>
-    <img v-if="_profilePictureUrl" :src="_profilePictureUrl" alt="Profile Image" width="100" />
-    <button v-if="!userId" @click="loginWithQRCode" class="button expanded-button">Login with LINE</button>
-    <button v-if="userId" @click="openLine" class="button expanded-button">Open LINE</button>
-    <button v-if="userId" @click="sendMessage" class="button expanded-button">Send Message to LINE Chat</button>
-    <button v-if="userId" @click="logout" class="button expanded-button">Logout</button>
+  <div id="container">
+    <!-- <h1>Login with LINE and Send Message</h1>
+    <h3>LINE User ID: {{ userId }}</h3> -->
+    <!-- <img v-if="userId" :src="imgShow" alt="Shop Image" width="300" />
+    <img v-if="userId" :src="imgBanner" alt="Shop Image" width="300" /> -->
+    <div id="app">
+      <img :src="imgShow" alt="Shop Image" width="350" />
+
+      <button v-if="!_userId" @click="loginWithQRCode" class="button">Login with LINE</button>
+      <button v-if="_userId" @click="openLine" class="button">Line Chat</button>
+      <button v-if="userId" @click="logout" class="button">Logout</button>
+      <img :src="imgBanner" alt="Shop Image" width="300" />
+    </div>
+
+    <!-- <img v-if="_profilePictureUrl" :src="_profilePictureUrl" alt="Profile Image" width="100" /> -->
+
+    <!-- <button v-if="!userId" @click="sendMessage" class="button">Send Message to LINE Chat</button> -->
   </div>
 </template>
 
@@ -64,7 +73,7 @@ export default {
 
       const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
       const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_BACKEND_CALLBACK) // ต้องตรงกับที่ลงทะเบียนใน LINE Developers Console
-      const state = 'App123' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
+      const state = 'AppLiffDemo' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
       const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
 
       // สร้าง URL สำหรับการล็อกอิน
