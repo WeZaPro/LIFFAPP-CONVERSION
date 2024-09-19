@@ -144,6 +144,8 @@ export default {
       // ใช้  this.adsId find db & update lineUid
       const get_adsId_fromCookies = this.getCookie('adsId')
       this.findConvUidAndUpdateLineUid(get_adsId_fromCookies, this._userId)
+
+      this.sendMessage()
     },
 
     async findConvUidAndUpdateLineUid(convUid, lineUid) {
