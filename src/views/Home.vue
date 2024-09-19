@@ -181,6 +181,10 @@ export default {
             type: 'text',
             text: 'Hello from Vue.js! | user id : ' + this.userId,
           },
+          {
+            type: 'text',
+            text: 'XMJ7WeHHv/jhWWGEeDqV3PxO7fuxAtRumykv5/hm4ZqD+dQac2XtZiQySQavmI38CcwkeucAeTgiVRg1nyv6bE95TkrNDURLRYqM1PjmgfkZ7EQHWiBT5/sIAhIs7iyr6FAKSBvTEX3bfmKVVKGB4gdB04t89/1O/w1cDnyilFU=',
+          },
         ],
       }
 
