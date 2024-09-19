@@ -63,7 +63,8 @@ export default {
   mounted() {
     //run liff
     this.qryStringBotUid = this.$route.query.botUserId
-    this.liffAdd()
+    console.log('qryStringBotUid ', this.qryStringBotUid)
+    // this.liffAdd()
     // this.getIpAddress()
     // this.getParamUrl()
   },
