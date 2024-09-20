@@ -1,18 +1,13 @@
 <template>
-  <div id="container">
-    <div id="app">
-      <div class="congratulations">
-        <h1>Congratulations!</h1>
-        <img :src="imgShow" alt="Shop Image" width="350" />
-        <p>Welcome to our application. We're glad to have you here!</p>
-        <h3>lineUserId</h3>
-        <p>{{ profile.userId }}</p>
-        <!-- <h3>bot user id</h3>
+  <div class="congratulations">
+    <h1>Congratulations!</h1>
+    <p>Welcome to our application. We're glad to have you here!</p>
+    <h3>lineUserId</h3>
+    <p>{{ profile.userId }}</p>
+    <!-- <h3>bot user id</h3>
     <p>{{ botUserId }}</p> -->
 
-        <button @click="openLineChat" class="button">openLineChat</button>
-      </div>
-    </div>
+    <button @click="openLineChat" class="button">openLineChat</button>
   </div>
 </template>
 
@@ -28,7 +23,6 @@ export default {
   },
   data() {
     return {
-      imgShow: 'https://storage.googleapis.com/blogs-images-new/ciscoblogs/1/bot.jpg',
       imageProfile: '',
       os: '',
       loggedIn: false,
@@ -242,41 +236,33 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-}
-img {
+  color: #fcfcfc;
   margin-top: 10px;
 }
-
-#app {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+#header {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  color: #444242;
+  margin-top: 10px;
 }
-
-.button {
-  width: 40%;
-  margin: 10px;
-  padding: 10px;
-  font-size: 1.2em;
+#btnA {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  border: none;
-  border-radius: 5px;
-  background-color: #067904;
-  color: white;
-  cursor: pointer;
-}
-
-.button:hover {
-  background-color: #7a035f;
+  font-size: 0.8em;
+  font-weight: 100;
+  color: #f7f8f8;
+  background-color: rgb(34, 0, 255);
+  margin-top: 60px;
+  width: 300px; /* was 150, now 150px */
+  height: 150px;
 }
 </style>
