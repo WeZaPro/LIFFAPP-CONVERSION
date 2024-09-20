@@ -310,7 +310,7 @@ export default {
   },
   mounted() {
     // this.updateLineBotUserId()
-
+    this.getBotUserIdFromUrl()
     // console.log('VITE_LIFF_ID ', import.meta.env.VITE_LIFF_ID_LOGIN)
     this.lineUid_fromToken = Cookies.get('_userId')
     if (this.lineUid_fromToken) {
