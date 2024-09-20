@@ -15,7 +15,7 @@
 //import HelloWorld from "./components/HelloWorld.vue";
 import liff from '@line/liff'
 //import SetDataService from '../../services/SetDataService'
-// import axios from 'axios'
+import axios from 'axios'
 export default {
   name: 'App',
   components: {
@@ -64,8 +64,9 @@ export default {
   // Url Dev = https://liff.line.me/1656824759-PrZzVE5w/?botUserId=Uad26c3928a8f42fb5eb677bf560bf07f
   mounted() {
     //run liff
-    this.qryStringBotUid = this.$route.query.botUserId
-    console.log('qryStringBotUid ', this.qryStringBotUid)
+    // this.qryStringBotUid = this.$route.query.botUserId
+    // console.log('qryStringBotUid ', this.qryStringBotUid)
+    this.updateLineBotUserId()
     this.liffAdd()
     // this.getIpAddress()
     // this.getParamUrl()
@@ -75,6 +76,24 @@ export default {
       const urlParams = new URLSearchParams(window.location.search)
       const botUserId = urlParams.get('botUserId')
       console.log('botUserId ', botUserId)
+    },
+    async updateLineBotUserId() {
+      //
+      this.qryStringBotUid = this.$route.query.botUserId
+      console.log('qryStringBotUid ', this.qryStringBotUid)
+      console.log('this.profile.userId ', this.profile.userId)
+
+      const payload = {
+        lineUid: this.profile.userId,
+        lineBotUid: this.qryStringBotUid,
+      }
+      //VITE_API_URL
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/updateLineBotId`, payload)
+        console.log(response.data) // Handle response data
+      } catch (error) {
+        console.error(error) // Handle error
+      }
     },
     // logOut() {
     //   // liff.logout()
