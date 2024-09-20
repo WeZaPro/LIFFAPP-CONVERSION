@@ -38,7 +38,6 @@ export default {
       imgShowA: 'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg',
       imgShow: 'https://storage.googleapis.com/blogs-images-new/ciscoblogs/1/bot.jpg',
       imgBanner: 'https://www.doctorgarn.com/wp-content/uploads/2024/01/font-2.png',
-      qryStringBotUid: null,
       _profile: {},
       _profilePictureUrl: '',
       userId: null,
@@ -117,6 +116,28 @@ export default {
         }
       } catch (error) {
         console.error('LIFF initialization failed:', error)
+      }
+    },
+    getBotUserIdFromUrl() {
+      // ดึง query string จาก URL
+      const queryString = window.location.search
+      const urlParams = new URLSearchParams(queryString)
+
+      console.log('getBotUserIdFromUrl urlParams ', urlParams)
+
+      // ดึงค่า liff.state จาก URL
+      const liffState = urlParams.get('liff.state')
+      console.log('getBotUserIdFromUrl liffState ', liffState)
+
+      if (liffState) {
+        // Decode ค่าจาก liff.state
+        const decodedState = decodeURIComponent(liffState)
+        console.log('getBotUserIdFromUrl decodedState ', liffState)
+
+        // ใช้ URLSearchParams ดึงค่า botUserId จาก liff.state ที่ decode แล้ว
+        const stateParams = new URLSearchParams(decodedState)
+        this.botUserId = stateParams.get('botUserId')
+        console.log('getBotUserIdFromUrl botUserId ', this.botUserId)
       }
     },
 
@@ -280,9 +301,8 @@ export default {
     // ดึง token จาก URL query string
     const urlParams = new URLSearchParams(window.location.search)
     const token = urlParams.get('token')
-    this.botUserId = urlParams.get('botUserId')
-    console.error('botUserId create ', this.botUserId)
-    console.log('mount this.$route.params.botUserId ', this.$route.params.botUserId)
+
+    // this.getBotUserIdFromUrl()
 
     if (token) {
       // ใช้ token เพื่อเรียก LINE API สำหรับดึงข้อมูลผู้ใช้
@@ -292,12 +312,8 @@ export default {
     }
   },
   mounted() {
-    const urlParamsBot = new URLSearchParams(window.location.search)
-    console.log("urlParams.get('botUserId') ", urlParamsBot.get('botUserId'))
-    console.log('mount this.$route.query.botUserId ', this.$route.query.botUserId)
-
-    this.updateLineBotUserId()
-
+    // this.updateLineBotUserId()
+    this.getBotUserIdFromUrl()
     // console.log('VITE_LIFF_ID ', import.meta.env.VITE_LIFF_ID_LOGIN)
     this.lineUid_fromToken = Cookies.get('_userId')
     if (this.lineUid_fromToken) {
