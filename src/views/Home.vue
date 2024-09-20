@@ -138,6 +138,7 @@ export default {
         const stateParams = new URLSearchParams(decodedState)
         this.botUserId = stateParams.get('botUserId')
         console.log('getBotUserIdFromUrl botUserId ', this.botUserId)
+        this.updateLineBotUserId(this.botUserId)
       }
     },
 
@@ -201,17 +202,13 @@ export default {
         console.error('Error sending data:', error)
       }
     },
-    async updateLineBotUserId() {
+    async updateLineBotUserId(_botUid) {
       //
       this.line_userId = Cookies.get('_userId')
 
-      console.log('this.$route.query.botUserId ', this.$route.query.botUserId)
-      console.log(' this.line_userId', this.line_userId)
-      console.log(' this.botUserId', this.botUserId)
-
       const payload = {
         lineUid: this.line_userId,
-        lineBotUid: this.botUserId,
+        lineBotUid: _botUid,
       }
       //VITE_API_URL
       try {
@@ -313,7 +310,7 @@ export default {
   },
   mounted() {
     // this.updateLineBotUserId()
-    this.getBotUserIdFromUrl()
+
     // console.log('VITE_LIFF_ID ', import.meta.env.VITE_LIFF_ID_LOGIN)
     this.lineUid_fromToken = Cookies.get('_userId')
     if (this.lineUid_fromToken) {
