@@ -281,6 +281,8 @@ export default {
     const urlParams = new URLSearchParams(window.location.search)
     const token = urlParams.get('token')
     this.botUserId = urlParams.get('botUserId')
+    console.error('botUserId create ', this.botUserId)
+    console.log('mount this.$route.params.botUserId ', this.$route.params.botUserId)
 
     if (token) {
       // ใช้ token เพื่อเรียก LINE API สำหรับดึงข้อมูลผู้ใช้
@@ -291,7 +293,8 @@ export default {
   },
   mounted() {
     const urlParamsBot = new URLSearchParams(window.location.search)
-    console.log("urlParams.get('3FbotUserId') ", urlParamsBot.get('botUserId'))
+    console.log("urlParams.get('botUserId') ", urlParamsBot.get('botUserId'))
+    console.log('mount this.$route.params.botUserId ', this.$route.params.botUserId)
 
     this.updateLineBotUserId()
 
