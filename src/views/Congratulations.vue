@@ -59,6 +59,8 @@ export default {
       _ads_utm_medium: '',
       _ads_utm_term: '',
       _IP: '',
+      //
+      get_lineUserId: '',
     }
   },
   // Url Dev = https://liff.line.me/1656824759-PrZzVE5w/?botUserId=Uad26c3928a8f42fb5eb677bf560bf07f
@@ -81,10 +83,10 @@ export default {
       //
       this.qryStringBotUid = this.$route.query.botUserId
       console.log('qryStringBotUid ', this.qryStringBotUid)
-      console.log('this.profile.userId ', this.profile.userId)
+      console.log('this.get_lineUserId ', this.get_lineUserId)
 
       const payload = {
-        lineUid: this.profile.userId,
+        lineUid: this.get_lineUserId,
         lineBotUid: this.qryStringBotUid,
       }
       //VITE_API_URL
@@ -153,6 +155,7 @@ export default {
             liff.getProfile().then(profile => {
               //this.sendMsg() // ใช้ตอนอยู่บน มือถือ ส่วนบน web ไม่ใช้
               this.profile = profile
+              this.get_lineUserId = profile.userId
 
               //Todo -> function-->
               if ((this.os = 'web')) {
