@@ -4,11 +4,11 @@
     <h3>LINE User ID: {{ userId }}</h3> -->
     <!-- <img v-if="userId" :src="imgShow" alt="Shop Image" width="300" />
     <img v-if="userId" :src="imgBanner" alt="Shop Image" width="300" /> -->
-    <div id="app" v-if="qryStringBotUid ? qryStringBotUid : inVisible">
+    <div id="app" v-if="botUserId ? botUserId : inVisible">
       <img :src="imgShowA" alt="Shop Image" width="350" />
     </div>
 
-    <div id="app" v-if="qryStringBotUid ? qryStringBotUid : isVisible">
+    <div id="app" v-if="botUserId ? botUserId : isVisible">
       <img :src="imgShow" alt="Shop Image" width="350" />
 
       <button v-if="!_userId" @click="loginWithQRCode" class="button">Login with LINE</button>
