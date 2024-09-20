@@ -4,7 +4,11 @@
     <h3>LINE User ID: {{ userId }}</h3> -->
     <!-- <img v-if="userId" :src="imgShow" alt="Shop Image" width="300" />
     <img v-if="userId" :src="imgBanner" alt="Shop Image" width="300" /> -->
-    <div id="app">
+    <div id="app" v-if="qryStringBotUid ? qryStringBotUid : inVisible">
+      <img :src="imgShowA" alt="Shop Image" width="350" />
+    </div>
+
+    <div id="app" v-if="qryStringBotUid ? qryStringBotUid : isVisible">
       <img :src="imgShow" alt="Shop Image" width="350" />
 
       <button v-if="!_userId" @click="loginWithQRCode" class="button">Login with LINE</button>
@@ -27,8 +31,12 @@ import Cookies from 'js-cookie'
 export default {
   data() {
     return {
+      isVisible: true, // ค่าเริ่มต้นแสดง div เมื่อ botuser มีค่า
+      inVisible: false, // ค่าเริ่มต้นซ่อน div เมื่อ botuser ไม่มีค่า
+      imgShowA: 'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg',
       imgShow: 'https://storage.googleapis.com/blogs-images-new/ciscoblogs/1/bot.jpg',
       imgBanner: 'https://www.doctorgarn.com/wp-content/uploads/2024/01/font-2.png',
+      qryStringBotUid: null,
       _profile: {},
       _profilePictureUrl: '',
       userId: null,
@@ -44,6 +52,9 @@ export default {
     }
   },
   methods: {
+    toggleVisibility() {
+      this.isVisible = !this.isVisible // สลับการแสดง/ซ่อน
+    },
     getLineUserProfile(token) {
       axios
         .get('https://api.line.me/v2/profile', {
@@ -167,6 +178,24 @@ export default {
         console.error('Error sending data:', error)
       }
     },
+    async updateLineBotUserId(_lineUserId) {
+      //
+      this.qryStringBotUid = this.$route.query.botUserId
+      console.log('qryStringBotUid ', this.qryStringBotUid)
+      console.log('_lineUserId ', _lineUserId)
+
+      const payload = {
+        lineUid: _lineUserId,
+        lineBotUid: this.qryStringBotUid,
+      }
+      //VITE_API_URL
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/updateLineBotId`, payload)
+        console.log(response.data) // Handle response data
+      } catch (error) {
+        console.error(error) // Handle error
+      }
+    },
 
     // Send a message using Messaging API
     sendMessage() {
@@ -256,6 +285,8 @@ export default {
     }
   },
   mounted() {
+    this.updateLineBotUserId(this._profile.userId)
+
     // console.log('VITE_LIFF_ID ', import.meta.env.VITE_LIFF_ID_LOGIN)
     this.lineUid_fromToken = Cookies.get('_userId')
     if (this.lineUid_fromToken) {
