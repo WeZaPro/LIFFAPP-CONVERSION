@@ -31,6 +31,8 @@ import Cookies from 'js-cookie'
 export default {
   data() {
     return {
+      botUserId: null,
+      line_userId: null,
       isVisible: true, // ค่าเริ่มต้นแสดง div เมื่อ botuser มีค่า
       inVisible: false, // ค่าเริ่มต้นซ่อน div เมื่อ botuser ไม่มีค่า
       imgShowA: 'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg',
@@ -178,15 +180,17 @@ export default {
         console.error('Error sending data:', error)
       }
     },
-    async updateLineBotUserId(_lineUserId) {
+    async updateLineBotUserId() {
       //
-      this.qryStringBotUid = this.$route.query.botUserId
-      console.log('qryStringBotUid ', this.qryStringBotUid)
-      console.log('_lineUserId ', _lineUserId)
+      this.line_userId = Cookies.get('_userId')
+
+      console.log('this.$route.query.botUserId ', this.$route.query.botUserId)
+      console.log(' this.line_userId', this.line_userId)
+      console.log(' this.botUserId', this.botUserId)
 
       const payload = {
-        lineUid: _lineUserId,
-        lineBotUid: this.qryStringBotUid,
+        lineUid: this.line_userId,
+        lineBotUid: this.botUserId,
       }
       //VITE_API_URL
       try {
@@ -272,10 +276,11 @@ export default {
   },
   created() {
     // this.initializeLIFF()
-
+    //this.qryStringBotUid = this.$route.query.botUserId
     // ดึง token จาก URL query string
     const urlParams = new URLSearchParams(window.location.search)
     const token = urlParams.get('token')
+    this.botUserId = urlParams.get('3FbotUserId')
 
     if (token) {
       // ใช้ token เพื่อเรียก LINE API สำหรับดึงข้อมูลผู้ใช้
@@ -285,7 +290,7 @@ export default {
     }
   },
   mounted() {
-    this.updateLineBotUserId(this._profile.userId)
+    this.updateLineBotUserId()
 
     // console.log('VITE_LIFF_ID ', import.meta.env.VITE_LIFF_ID_LOGIN)
     this.lineUid_fromToken = Cookies.get('_userId')
