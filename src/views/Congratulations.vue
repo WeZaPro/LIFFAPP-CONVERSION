@@ -68,7 +68,7 @@ export default {
     //run liff
     // this.qryStringBotUid = this.$route.query.botUserId
     // console.log('qryStringBotUid ', this.qryStringBotUid)
-    this.updateLineBotUserId()
+    // this.updateLineBotUserId()
     this.liffAdd()
     // this.getIpAddress()
     // this.getParamUrl()
@@ -79,14 +79,14 @@ export default {
       const botUserId = urlParams.get('botUserId')
       console.log('botUserId ', botUserId)
     },
-    async updateLineBotUserId() {
+    async updateLineBotUserId(_lineUserId) {
       //
       this.qryStringBotUid = this.$route.query.botUserId
       console.log('qryStringBotUid ', this.qryStringBotUid)
-      console.log('this.get_lineUserId ', this.get_lineUserId)
+      console.log('_lineUserId ', _lineUserId)
 
       const payload = {
-        lineUid: this.get_lineUserId,
+        lineUid: _lineUserId,
         lineBotUid: this.qryStringBotUid,
       }
       //VITE_API_URL
@@ -155,7 +155,8 @@ export default {
             liff.getProfile().then(profile => {
               //this.sendMsg() // ใช้ตอนอยู่บน มือถือ ส่วนบน web ไม่ใช้
               this.profile = profile
-              this.get_lineUserId = profile.userId
+
+              this.updateLineBotUserId(this.profile.userId)
 
               //Todo -> function-->
               if ((this.os = 'web')) {
