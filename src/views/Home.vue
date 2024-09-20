@@ -280,7 +280,7 @@ export default {
     // ดึง token จาก URL query string
     const urlParams = new URLSearchParams(window.location.search)
     const token = urlParams.get('token')
-    this.botUserId = urlParams.get('3FbotUserId')
+    this.botUserId = urlParams.get('botUserId')
 
     if (token) {
       // ใช้ token เพื่อเรียก LINE API สำหรับดึงข้อมูลผู้ใช้
@@ -290,6 +290,9 @@ export default {
     }
   },
   mounted() {
+    const urlParamsBot = new URLSearchParams(window.location.search)
+    console.log("urlParams.get('3FbotUserId') ", urlParamsBot.get('botUserId'))
+
     this.updateLineBotUserId()
 
     // console.log('VITE_LIFF_ID ', import.meta.env.VITE_LIFF_ID_LOGIN)
