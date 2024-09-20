@@ -71,6 +71,11 @@ export default {
     // this.getParamUrl()
   },
   methods: {
+    getQueryParam() {
+      const urlParams = new URLSearchParams(window.location.search)
+      const botUserId = urlParams.get('botUserId')
+      console.log('botUserId ', botUserId)
+    },
     // logOut() {
     //   // liff.logout()
     //   // window.location.reload()
