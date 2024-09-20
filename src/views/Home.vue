@@ -294,7 +294,7 @@ export default {
   mounted() {
     const urlParamsBot = new URLSearchParams(window.location.search)
     console.log("urlParams.get('botUserId') ", urlParamsBot.get('botUserId'))
-    console.log('mount this.$route.params.botUserId ', this.$route.params.botUserId)
+    console.log('mount this.$route.query.botUserId ', this.$route.query.botUserId)
 
     this.updateLineBotUserId()
 
