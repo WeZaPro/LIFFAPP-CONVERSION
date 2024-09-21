@@ -171,7 +171,14 @@ export default {
         console.log('err ', err)
       }
     },
-    findCusIdFromGTM(line_userId) {},
+    async findCusIdFromGTM(_line_userId) {
+      const payload = {
+        line_user_id: _line_userId,
+      }
+      const response_cus_id = await axios.post(`${import.meta.env.VITE_API_URL}/customer/searchCusId/`, payload)
+      console.log('response_cus_id ', response_cus_id)
+      return response_cus_id
+    },
     findCusIdAndUpdateLineToGTM(cusid, lineDestination, botUserId, line_userId) {},
 
     // Login with LINE using LIFF
