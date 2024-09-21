@@ -174,7 +174,7 @@ export default {
     },
     // async findCusIdFromGTM(_line_userId, _lineDestination, _botUserId) {
     async findCusIdFromGTM(_line_userId) {
-      console.log('update cus data > line_userId ', _line_userId)
+      // console.log('update cus data > line_userId ', _line_userId)
       const payload = {
         line_user_id: _line_userId,
         // line_user_id: 'U634375582d774e1c8ce69c31f6f1ba48',
@@ -187,9 +187,14 @@ export default {
 
       console.log('response_cus_id ', response_cus_id.data.customer_id)
 
-      // if (response_cus_id) {
-      //   this.findCusIdAndUpdateLineToGTM(response_cus_id, _lineDestination, _botUserId, _line_userId)
-      // }
+      if (response_cus_id.data.customer_id) {
+        this.findCusIdAndUpdateLineToGTM(
+          response_cus_id.data.customer_id,
+          this.lineDestination,
+          this.botUserId,
+          this.line_userId
+        )
+      }
 
       // return response_cus_id.data.customer_id
     },
