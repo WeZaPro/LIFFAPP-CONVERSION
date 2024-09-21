@@ -153,6 +153,9 @@ export default {
           // data update= this.line_userId
           // data update= this.botUserId
           // data update= this.lineDestination
+          console.log('update cus data > lineDestination ', this.lineDestination)
+          console.log('update cus data > botUserId ', this.botUserId)
+          console.log('update cus data > line_userId ', this.line_userId)
         }
       } catch (err) {
         console.log('err ', err)
@@ -326,6 +329,8 @@ export default {
     }
   },
   mounted() {
+    // get customer data ******************
+
     // this.updateLineBotUserId()
     this.getBotUserIdFromUrl()
     // console.log('VITE_LIFF_ID ', import.meta.env.VITE_LIFF_ID_LOGIN)
