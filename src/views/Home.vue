@@ -149,7 +149,7 @@ export default {
           // ใช้ customer id findOneAndUpdate CUSTOMER (line uid, line bot id , line destination)
 
           const customer_id = this.findCusIdFromGTM(this.line_userId)
-          console.log('customer_id ', customer_id)
+          console.log('customer_id >>> ', customer_id)
           //-> backend +/findAndUpdateLine
           // const updateLineData = this.findCusIdAndUpdateLineToGTM(
           //   cusId,
@@ -176,8 +176,8 @@ export default {
         line_user_id: _line_userId,
       }
       const response_cus_id = await axios.post(`${import.meta.env.VITE_API_URL}/api/customer/searchCusId/`, payload)
-      console.log('response_cus_id ', response_cus_id.data)
-      return response_cus_id.data
+      console.log('response_cus_id ', response_cus_id.data.customer_id)
+      return response_cus_id.data.customer_id
     },
     findCusIdAndUpdateLineToGTM(cusid, lineDestination, botUserId, line_userId) {},
 
