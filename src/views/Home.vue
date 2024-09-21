@@ -31,6 +31,7 @@ import Cookies from 'js-cookie'
 export default {
   data() {
     return {
+      lineDestination: null,
       botUserId: null,
       line_userId: null,
       isVisible: true, // ค่าเริ่มต้นแสดง div เมื่อ botuser มีค่า
@@ -119,26 +120,42 @@ export default {
       }
     },
     getBotUserIdFromUrl() {
-      // ดึง query string จาก URL
-      const queryString = window.location.search
-      const urlParams = new URLSearchParams(queryString)
+      try {
+        // ดึง query string จาก URL
+        const queryString = window.location.search
+        const urlParams = new URLSearchParams(queryString)
 
-      console.log('getBotUserIdFromUrl urlParams ', urlParams)
+        console.log('getBotUserIdFromUrl urlParams ', urlParams)
 
-      // ดึงค่า liff.state จาก URL
-      const liffState = urlParams.get('liff.state')
-      console.log('getBotUserIdFromUrl liffState ', liffState)
+        // ดึงค่า liff.state จาก URL
+        const liffState = urlParams.get('liff.state')
+        console.log('getBotUserIdFromUrl liffState ', liffState)
 
-      if (liffState) {
-        // Decode ค่าจาก liff.state
-        const decodedState = decodeURIComponent(liffState)
-        console.log('getBotUserIdFromUrl decodedState ', liffState)
+        if (liffState) {
+          // Decode ค่าจาก liff.state
+          const decodedState = decodeURIComponent(liffState)
+          console.log('getBotUserIdFromUrl decodedState ', liffState)
 
-        // ใช้ URLSearchParams ดึงค่า botUserId จาก liff.state ที่ decode แล้ว
-        const stateParams = new URLSearchParams(decodedState)
-        this.botUserId = stateParams.get('botUserId')
-        console.log('getBotUserIdFromUrl botUserId ', this.botUserId)
-        this.updateLineBotUserId(this.botUserId)
+          // ใช้ URLSearchParams ดึงค่า botUserId จาก liff.state ที่ decode แล้ว
+          const stateParams = new URLSearchParams(decodedState)
+          this.botUserId = stateParams.get('botUserId')
+          console.log('getBotUserIdFromUrl botUserId ', this.botUserId)
+          this.updateLineBotUserId(this.botUserId)
+
+          // update customer data
+          this.lineDestination = stateParams.get('lineDestination')
+          console.log('getBotUserIdFromUrl lineDestination ', this.lineDestination)
+          // ใช้ line uid find customer id => from GTM data
+          // ใช้ customer id findOneAndUpdate CUSTOMER (line uid, line bot id , line destination)
+
+          // find this.line_userId  => from GTM data => customerID
+          // find customerID  => from CUSTOMER data => customerID
+          // data update= this.line_userId
+          // data update= this.botUserId
+          // data update= this.lineDestination
+        }
+      } catch (err) {
+        console.log('err ', err)
       }
     },
 
