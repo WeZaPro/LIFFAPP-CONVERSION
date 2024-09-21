@@ -148,8 +148,8 @@ export default {
           // ใช้ line uid find customer id => from GTM data
           // ใช้ customer id findOneAndUpdate CUSTOMER (line uid, line bot id , line destination)
 
-          // const customer_id = await this.findCusIdFromGTM(this.line_userId, this.lineDestination, this.botUserId)
-          this.findCusIdFromGTM('U634375582d774e1c8ce69c31f6f1ba48')
+          const customer_id = await this.findCusIdFromGTM(this.line_userId, this.lineDestination, this.botUserId)
+          // this.findCusIdFromGTM(this.line_userId)
 
           //-> backend +/findAndUpdateLine
           // const updateLineData = this.findCusIdAndUpdateLineToGTM(
@@ -172,8 +172,8 @@ export default {
         console.log('err ', err)
       }
     },
-    // async findCusIdFromGTM(_line_userId, _lineDestination, _botUserId) {
-    async findCusIdFromGTM(_line_userId) {
+    async findCusIdFromGTM(_line_userId, _lineDestination, _botUserId) {
+      // async findCusIdFromGTM(_line_userId) {
       // console.log('update cus data > line_userId ', _line_userId)
       const payload = {
         line_user_id: _line_userId,
@@ -188,12 +188,7 @@ export default {
       console.log('response_cus_id ', response_cus_id.data.customer_id)
 
       if (response_cus_id.data.customer_id) {
-        this.findCusIdAndUpdateLineToGTM(
-          response_cus_id.data.customer_id,
-          this.lineDestination,
-          this.botUserId,
-          this.line_userId
-        )
+        this.findCusIdAndUpdateLineToGTM(response_cus_id.data.customer_id, _lineDestination, _botUserId, _line_userId)
       }
 
       // return response_cus_id.data.customer_id
