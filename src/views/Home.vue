@@ -188,10 +188,10 @@ export default {
       // console.log('response_cus_id ', response_cus_id.data.data)
       console.log('response_cus_id.data ', response_cus_id.data)
       console.log('response_cus_id.data.data ', response_cus_id.data.data)
-
-      // if (response_cus_id.data.customer_id) {
-      //   this.findCusIdAndUpdateLineToGTM(response_cus_id.data.customer_id, _lineDestination, _botUserId, _line_userId)
-      // }
+      const _customer_id = response_cus_id.data.data
+      if (_customer_id) {
+        this.findCusIdAndUpdateLineToGTM(_customer_id, _lineDestination, _botUserId, _line_userId)
+      }
 
       // return response_cus_id.data.customer_id
     },
