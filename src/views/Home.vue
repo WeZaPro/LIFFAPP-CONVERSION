@@ -148,6 +148,16 @@ export default {
           // ใช้ line uid find customer id => from GTM data
           // ใช้ customer id findOneAndUpdate CUSTOMER (line uid, line bot id , line destination)
 
+          const customer_id = this.findCusIdFromGTM(this.line_userId)
+          console.log('customer_id ', customer_id)
+          //-> backend +/findAndUpdateLine
+          // const updateLineData = this.findCusIdAndUpdateLineToGTM(
+          //   cusId,
+          //   this.lineDestination,
+          //   this.botUserId,
+          //   this.line_userId
+          // )
+          //
           // find this.line_userId  => from GTM data => customerID
           // find customerID  => from CUSTOMER data => customerID
           // data update= this.line_userId
@@ -161,6 +171,8 @@ export default {
         console.log('err ', err)
       }
     },
+    findCusIdFromGTM(line_userId) {},
+    findCusIdAndUpdateLineToGTM(cusid, lineDestination, botUserId, line_userId) {},
 
     // Login with LINE using LIFF
     loginWithLINE() {
