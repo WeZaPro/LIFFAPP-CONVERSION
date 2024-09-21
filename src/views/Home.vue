@@ -148,8 +148,8 @@ export default {
           // ใช้ line uid find customer id => from GTM data
           // ใช้ customer id findOneAndUpdate CUSTOMER (line uid, line bot id , line destination)
 
-          const customer_id = await this.findCusIdFromGTM(this.line_userId, this.lineDestination, this.botUserId)
-          console.log('customer_id >>> ', customer_id)
+          // const customer_id = await this.findCusIdFromGTM(this.line_userId, this.lineDestination, this.botUserId)
+          this.findCusIdFromGTM('U634375582d774e1c8ce69c31f6f1ba48')
 
           //-> backend +/findAndUpdateLine
           // const updateLineData = this.findCusIdAndUpdateLineToGTM(
@@ -172,18 +172,26 @@ export default {
         console.log('err ', err)
       }
     },
-    async findCusIdFromGTM(_line_userId, _lineDestination, _botUserId) {
+    // async findCusIdFromGTM(_line_userId, _lineDestination, _botUserId) {
+    async findCusIdFromGTM(_line_userId) {
+      console.log('update cus data > line_userId ', _line_userId)
       const payload = {
         line_user_id: _line_userId,
+        // line_user_id: 'U634375582d774e1c8ce69c31f6f1ba48',
       }
-      const response_cus_id = await axios.post(`${import.meta.env.VITE_API_URL}/customer/searchCusId/`, payload)
+      const response_cus_id = await axios.post(`${import.meta.env.VITE_API_URL}/api/customer/searchCusId`, payload)
+      // const response_cus_id = await axios.post(
+      //   `https://node-conv-api-production.up.railway.app/api/customer/searchCusId`,
+      //   payload
+      // )
+
       console.log('response_cus_id ', response_cus_id.data.customer_id)
 
-      if (response_cus_id) {
-        this.findCusIdAndUpdateLineToGTM(response_cus_id, _lineDestination, _botUserId, _line_userId)
-      }
+      // if (response_cus_id) {
+      //   this.findCusIdAndUpdateLineToGTM(response_cus_id, _lineDestination, _botUserId, _line_userId)
+      // }
 
-      return response_cus_id.data.customer_id
+      // return response_cus_id.data.customer_id
     },
 
     findCusIdAndUpdateLineToGTM(cusid, lineDestination, botUserId, line_userId) {
