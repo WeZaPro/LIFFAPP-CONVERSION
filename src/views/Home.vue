@@ -119,7 +119,7 @@ export default {
         console.error('LIFF initialization failed:', error)
       }
     },
-    getBotUserIdFromUrl() {
+    async getBotUserIdFromUrl() {
       try {
         // ดึง query string จาก URL
         const queryString = window.location.search
@@ -148,8 +148,9 @@ export default {
           // ใช้ line uid find customer id => from GTM data
           // ใช้ customer id findOneAndUpdate CUSTOMER (line uid, line bot id , line destination)
 
-          const customer_id = this.findCusIdFromGTM(this.line_userId)
+          const customer_id = await this.findCusIdFromGTM(this.line_userId, this.lineDestination, this.botUserId)
           console.log('customer_id >>> ', customer_id)
+
           //-> backend +/findAndUpdateLine
           // const updateLineData = this.findCusIdAndUpdateLineToGTM(
           //   cusId,
@@ -163,23 +164,34 @@ export default {
           // data update= this.line_userId
           // data update= this.botUserId
           // data update= this.lineDestination
-          console.log('update cus data > lineDestination ', this.lineDestination)
-          console.log('update cus data > botUserId ', this.botUserId)
-          console.log('update cus data > line_userId ', this.line_userId)
+          // console.log('update cus data > lineDestination ', this.lineDestination)
+          // console.log('update cus data > botUserId ', this.botUserId)
+          // console.log('update cus data > line_userId ', this.line_userId)
         }
       } catch (err) {
         console.log('err ', err)
       }
     },
-    async findCusIdFromGTM(_line_userId) {
+    async findCusIdFromGTM(_line_userId, _lineDestination, _botUserId) {
       const payload = {
         line_user_id: _line_userId,
       }
-      const response_cus_id = await axios.post(`${import.meta.env.VITE_API_URL}/api/customer/searchCusId/`, payload)
+      const response_cus_id = await axios.post(`${import.meta.env.VITE_API_URL}/customer/searchCusId/`, payload)
       console.log('response_cus_id ', response_cus_id.data.customer_id)
+
+      if (response_cus_id) {
+        this.findCusIdAndUpdateLineToGTM(response_cus_id, _lineDestination, _botUserId, _line_userId)
+      }
+
       return response_cus_id.data.customer_id
     },
-    findCusIdAndUpdateLineToGTM(cusid, lineDestination, botUserId, line_userId) {},
+
+    findCusIdAndUpdateLineToGTM(cusid, lineDestination, botUserId, line_userId) {
+      console.log('findCusIdAndUpdateLineToGTM >cusid  ', cusid)
+      console.log('findCusIdAndUpdateLineToGTM >lineDestination  ', lineDestination)
+      console.log('findCusIdAndUpdateLineToGTM >botUserId  ', botUserId)
+      console.log('findCusIdAndUpdateLineToGTM >line_userId  ', line_userId)
+    },
 
     // Login with LINE using LIFF
     loginWithLINE() {
