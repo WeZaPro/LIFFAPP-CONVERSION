@@ -188,24 +188,20 @@ export default {
       console.log('_customer_id ', _customer_id)
 
       // รอก่อน *******************
-      // if (_customer_id) {
-      //   this.findCusIdAndUpdateLineToGTM(_customer_id, _lineDestination, _botUserId, _line_userId)
-      // }
+      if (_customer_id) {
+        this.findCusIdAndUpdateLineToGTM(_customer_id, _lineDestination)
+      }
 
       // return response_cus_id.data.customer_id
     },
 
-    async findCusIdAndUpdateLineToGTM(cusid, lineDestination, botUserId, line_userId) {
+    async findCusIdAndUpdateLineToGTM(cusid, lineDestination) {
       console.log('findCusIdAndUpdateLineToGTM >cusid  ', cusid)
       console.log('findCusIdAndUpdateLineToGTM >lineDestination  ', lineDestination)
-      console.log('findCusIdAndUpdateLineToGTM >botUserId  ', botUserId)
-      console.log('findCusIdAndUpdateLineToGTM >line_userId  ', line_userId)
 
       const payload = {
         customer_id: cusid,
         line_bot_destination: lineDestination,
-        line_user_id: botUserId,
-        line_bot_id: line_userId,
       }
       //VITE_API_URL
       try {
