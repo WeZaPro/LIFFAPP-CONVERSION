@@ -196,27 +196,11 @@ export default {
       // return response_cus_id.data.customer_id
     },
 
-    async findCusIdAndUpdateLineToGTM(cusid, lineDestination, botUserId, line_userId) {
+    findCusIdAndUpdateLineToGTM(cusid, lineDestination, botUserId, line_userId) {
       console.log('findCusIdAndUpdateLineToGTM >cusid  ', cusid)
       console.log('findCusIdAndUpdateLineToGTM >lineDestination  ', lineDestination)
       console.log('findCusIdAndUpdateLineToGTM >botUserId  ', botUserId)
       console.log('findCusIdAndUpdateLineToGTM >line_userId  ', line_userId)
-
-      const payload = {
-        customer_id: cusid,
-        line_bot_destination: lineDestination,
-        line_user_id: botUserId,
-        line_bot_id: line_userId,
-      }
-      //VITE_API_URL
-      try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/customer/findAndUpdateLine`, payload)
-        if (response.data) {
-          console.log(response.data) // Handle response data
-        }
-      } catch (error) {
-        console.error(error) // Handle error
-      }
     },
 
     // Login with LINE using LIFF
