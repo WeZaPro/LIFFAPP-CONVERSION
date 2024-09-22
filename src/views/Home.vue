@@ -180,18 +180,17 @@ export default {
         // line_user_id: 'U634375582d774e1c8ce69c31f6f1ba48',
       }
       const response_cus_id = await axios.post(`${import.meta.env.VITE_API_URL}/api/customer/searchCusId`, payload)
-      // const response_cus_id = await axios.post(
-      //   `https://node-conv-api-production.up.railway.app/api/customer/searchCusId`,
-      //   payload
-      // )
 
       // console.log('response_cus_id ', response_cus_id.data.data)
       console.log('response_cus_id.data ', response_cus_id.data)
-      console.log('response_cus_id.data.data ', response_cus_id.data.data)
+
       const _customer_id = response_cus_id.data.data
-      if (_customer_id) {
-        this.findCusIdAndUpdateLineToGTM(_customer_id, _lineDestination, _botUserId, _line_userId)
-      }
+      console.log('_customer_id ', _customer_id)
+
+      // รอก่อน *******************
+      // if (_customer_id) {
+      //   this.findCusIdAndUpdateLineToGTM(_customer_id, _lineDestination, _botUserId, _line_userId)
+      // }
 
       // return response_cus_id.data.customer_id
     },
