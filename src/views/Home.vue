@@ -48,6 +48,7 @@ export default {
       adsId: null,
       adsId_cookieValue: null,
       cus_id: null,
+      CustomerData: null,
       // url: process.env.VITE_LIFF_LOGIN_URL,
       // _clientId: 'YOUR_CLIENT_ID',
       // _clientSecret: 'YOUR_CLIENT_SECRET',
@@ -180,7 +181,9 @@ export default {
       }
 
       const response_cus_data = await axios.post(`${import.meta.env.VITE_API_URL}/api/customer/searchCusData`, payload)
-      console.log('response_cus_data ', response_cus_data.data)
+
+      this.CustomerData = response_cus_data.data
+      console.log('this.CustomerData ', this.CustomerData)
     },
     async findCusIdFromGTM(_line_userId, _lineDestination, _botUserId) {
       // async findCusIdFromGTM(_line_userId) {
