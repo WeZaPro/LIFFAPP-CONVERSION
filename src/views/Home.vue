@@ -51,11 +51,11 @@ export default {
       CustomerData: null,
       line_messaging_token: null,
 
-      _VITE_APP_LINE_CHANNEL_ID: null,
-      _VITE_APP_BACKEND_CALLBACK: null,
-      _VITE_APP_LINE_REDIRECT_URI: null,
-      _VITE_LIFF_ID_LOGIN: null,
-      _VITE_LINE_CHAT_BOT: null,
+      VITE_APP_LINE_CHANNEL_ID: null,
+      VITE_APP_BACKEND_CALLBACK: null,
+      VITE_APP_LINE_REDIRECT_URI: null,
+      VITE_LIFF_ID_LOGIN: null,
+      VITE_LINE_CHAT_BOT: null,
       // url: process.env.VITE_LIFF_LOGIN_URL,
       // _clientId: 'YOUR_CLIENT_ID',
       // _clientSecret: 'YOUR_CLIENT_SECRET',
@@ -193,10 +193,17 @@ export default {
       console.log('this.CustomerData ', this.CustomerData)
       this.line_messaging_token = this.CustomerData.line_msg_api_token
       console.log('*** this.line_messaging_token ', this.line_messaging_token)
-      console.log('*** VITE_APP_LINE_CHANNEL_ID ', this.CustomerData.line_login_channel_id)
-      console.log('*** VITE_LIFF_ID_LOGIN', this.CustomerData.line_liff_login_id)
-      console.log('*** VITE_LINE_CHAT_BOT ', this.CustomerData.line_login_channel_id)
-      console.log('*** VITE_APP_LINE_REDIRECT_URI ', 'https://node-conv-api-production.up.railway.app/callback')
+
+      this.VITE_APP_LINE_CHANNEL_ID = this.CustomerData.line_login_channel_id
+      console.log('*** VITE_APP_LINE_CHANNEL_ID ', this.VITE_APP_LINE_CHANNEL_ID)
+
+      this.VITE_LIFF_ID_LOGIN = this.CustomerData.line_liff_login_id
+      console.log('*** VITE_LIFF_ID_LOGIN', this.VITE_LIFF_ID_LOGIN)
+
+      this.VITE_LINE_CHAT_BOT = this.CustomerData.line_OA
+      console.log('*** VITE_LINE_CHAT_BOT ', this.VITE_LINE_CHAT_BOT)
+
+      this.VITE_APP_LINE_REDIRECT_URI = 'https://node-conv-api-production.up.railway.app/callback'
     },
     async findCusIdFromGTM(_line_userId, _lineDestination, _botUserId) {
       // async findCusIdFromGTM(_line_userId) {
