@@ -33,7 +33,7 @@ export default {
       isVisible: true, // ค่าเริ่มต้นแสดง div เมื่อ botuser มีค่า
       inVisible: false, // ค่าเริ่มต้นซ่อน div เมื่อ botuser ไม่มีค่า
       imgShow: 'https://www.doctorgarn.com/wp-content/uploads/2024/01/bg4-03.png',
-      imgShow: 'https://storage.googleapis.com/blogs-images-new/ciscoblogs/1/bot.jpg',
+
       imgBanner: 'https://www.doctorgarn.com/wp-content/uploads/2024/01/font-2.png',
       _profile: {},
       _profilePictureUrl: '',
