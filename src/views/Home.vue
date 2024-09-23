@@ -195,6 +195,7 @@ export default {
       console.log('this.line_messaging_token ', this.line_messaging_token)
 
       this._VITE_APP_LINE_CHANNEL_ID = this.CustomerData.line_login_channel_id
+      console.log('this._VITE_APP_LINE_CHANNEL_ID ', tthis._VITE_APP_LINE_CHANNEL_ID)
       this._VITE_APP_BACKEND_CALLBACK = this.CustomerData.line_msg_api_token
       this._VITE_APP_LINE_REDIRECT_URI = 'https://node-conv-api-production.up.railway.app/callback'
       this._VITE_LIFF_ID_LOGIN = this.CustomerData.line_liff_login_id
