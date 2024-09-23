@@ -50,6 +50,12 @@ export default {
       cus_id: null,
       CustomerData: null,
       line_messaging_token: null,
+
+      _VITE_APP_LINE_CHANNEL_ID: null,
+      _VITE_APP_BACKEND_CALLBACK: null,
+      _VITE_APP_LINE_REDIRECT_URI: null,
+      _VITE_LIFF_ID_LOGIN: null,
+      _VITE_LINE_CHAT_BOT: null,
       // url: process.env.VITE_LIFF_LOGIN_URL,
       // _clientId: 'YOUR_CLIENT_ID',
       // _clientSecret: 'YOUR_CLIENT_SECRET',
@@ -80,19 +86,15 @@ export default {
         })
     },
     loginWithQRCode() {
-      // const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${
-      //   import.meta.env.VITE_APP_LINE_CHANNEL_ID
-      // }&redirect_uri=${
-      //   import.meta.env.VITE_APP_LINE_REDIRECT_URI
-      // }&state=randomstring&scope=profile%20openid&prompt=consent`
-      // window.location.href = lineLoginUrl
-
-      const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
-      const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_BACKEND_CALLBACK) // ต้องตรงกับที่ลงทะเบียนใน LINE Developers Console
+      // const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      const clientId = this._VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      // const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_BACKEND_CALLBACK) // ต้องตรงกับที่ลงทะเบียนใน LINE Developers Console
+      const redirectUri = encodeURIComponent(this._VITE_APP_BACKEND_CALLBACK)
       const state = 'App123-Cus' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
       const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
       //const uri = 'https://schoolshopliffweb.onrender.com'
-      const uri = import.meta.env.VITE_APP_LINE_REDIRECT_URI
+      // const uri = import.meta.env.VITE_APP_LINE_REDIRECT_URI
+      const uri = this._VITE_APP_LINE_REDIRECT_URI
       // สร้าง URL สำหรับการล็อกอิน
       const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
 
@@ -104,7 +106,8 @@ export default {
     async initializeLIFF() {
       try {
         // await liff.init({ liffId: '1656824759-KYL5BkQ6' })
-        await liff.init({ liffId: import.meta.env.VITE_LIFF_ID_LOGIN })
+        // await liff.init({ liffId: import.meta.env.VITE_LIFF_ID_LOGIN })
+        await liff.init({ liffId: this._VITE_LIFF_ID_LOGIN })
         if (liff.isLoggedIn()) {
           await this.getUserProfile() // Ensure this is awaited to get the result
           // console.log('User ID:', this.userId) // This will print the userId
@@ -187,6 +190,12 @@ export default {
       console.log('this.CustomerData ', this.CustomerData)
       this.line_messaging_token = this.CustomerData.line_msg_api_token
       console.log('this.line_messaging_token ', this.line_messaging_token)
+
+      this._VITE_APP_LINE_CHANNEL_ID = this.CustomerData.line_login_channel_id
+      this._VITE_APP_BACKEND_CALLBACK = this.CustomerData.line_msg_api_token
+      this._VITE_APP_LINE_REDIRECT_URI = 'https://node-conv-api-production.up.railway.app/callback'
+      this._VITE_LIFF_ID_LOGIN = this.CustomerData.line_liff_login_id
+      this._VITE_LINE_CHAT_BOT = this.CustomerData.line_OA
     },
     async findCusIdFromGTM(_line_userId, _lineDestination, _botUserId) {
       // async findCusIdFromGTM(_line_userId) {
@@ -261,7 +270,8 @@ export default {
     openLine() {
       //window.location.href = 'line://ti/p/@454nqxks'
 
-      window.location.href = import.meta.env.VITE_LINE_CHAT_BOT
+      // window.location.href = import.meta.env.VITE_LINE_CHAT_BOT
+      window.location.href = this._VITE_LINE_CHAT_BOT
 
       // ใช้  this.adsId find db & update lineUid
       const get_adsId_fromCookies = this.getCookie('adsId')
