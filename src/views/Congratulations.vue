@@ -188,7 +188,11 @@ export default {
 
       // const _customer_id = response_cus_id.data.data
       // console.log('_customer_id ', _customer_id)
-      this.findCusIdAndUpdateLineToGTM(this.cus_id, _lineDestination)
+
+      const get_cus_id = this.getQueryParam('cus_id')
+      console.log(' findCusIdAndUpdateLineToGTM get_cus_id ', get_cus_id)
+
+      this.findCusIdAndUpdateLineToGTM(get_cus_id, _lineDestination)
       // รอก่อน *******************
       // if (_customer_id) {
 
