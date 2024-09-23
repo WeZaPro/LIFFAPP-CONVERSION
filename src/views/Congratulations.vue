@@ -6,7 +6,7 @@
 
     <div id="app" v-if="botUserId ? botUserId : isVisible">
       <img :src="imgShow" alt="Shop Image" width="350" />
-      {{ _userId }}
+
       <button v-if="!_userId" @click="loginWithQRCode" class="button">Login with LINE</button>
       <button v-if="_userId" @click="openLine" class="button">Line Chat</button>
       <button v-if="_userId" @click="logout" class="button">Logout</button>
@@ -143,7 +143,7 @@ export default {
           this.lineDestination = stateParams.get('lineDestination')
           console.log('getBotUserIdFromUrl lineDestination ', this.lineDestination)
 
-          const customer_id = await this.findCusIdFromGTM(this.line_userId, this.lineDestination, this.botUserId)
+          await this.findCusIdFromGTM(this.lineDestination)
         }
       } catch (err) {
         console.log('err ', err)
@@ -174,25 +174,25 @@ export default {
 
       this.VITE_APP_LINE_REDIRECT_URI = 'https://node-conv-api-production.up.railway.app/callback'
     },
-    async findCusIdFromGTM(_line_userId, _lineDestination, _botUserId) {
+    async findCusIdFromGTM(_lineDestination) {
       // async findCusIdFromGTM(_line_userId) {
       // console.log('update cus data > line_userId ', _line_userId)
-      const payload = {
-        line_user_id: _line_userId,
-        // line_user_id: 'U634375582d774e1c8ce69c31f6f1ba48',
-      }
-      const response_cus_id = await axios.post(`${import.meta.env.VITE_API_URL}/api/customer/searchCusId`, payload)
+      // const payload = {
+      //   line_user_id: _line_userId,
+      //   // line_user_id: 'U634375582d774e1c8ce69c31f6f1ba48',
+      // }
+      // const response_cus_id = await axios.post(`${import.meta.env.VITE_API_URL}/api/customer/searchCusId`, payload)
 
-      // console.log('response_cus_id ', response_cus_id.data.data)
-      console.log('response_cus_id.data ', response_cus_id.data)
+      // // console.log('response_cus_id ', response_cus_id.data.data)
+      // console.log('response_cus_id.data ', response_cus_id.data)
 
-      const _customer_id = response_cus_id.data.data
-      console.log('_customer_id ', _customer_id)
-
+      // const _customer_id = response_cus_id.data.data
+      // console.log('_customer_id ', _customer_id)
+      this.findCusIdAndUpdateLineToGTM(this.cus_id, _lineDestination)
       // รอก่อน *******************
-      if (_customer_id) {
-        this.findCusIdAndUpdateLineToGTM(_customer_id, _lineDestination)
-      }
+      // if (_customer_id) {
+
+      // }
 
       // return response_cus_id.data.customer_id
     },
