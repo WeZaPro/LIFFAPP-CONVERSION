@@ -1,5 +1,9 @@
 <template>
   <div id="container">
+    <!-- <h1>Login with LINE and Send Message</h1>
+    <h3>LINE User ID: {{ userId }}</h3> -->
+    <!-- <img v-if="userId" :src="imgShow" alt="Shop Image" width="300" />
+    <img v-if="userId" :src="imgBanner" alt="Shop Image" width="300" /> -->
     <div id="app" v-if="botUserId ? botUserId : inVisible">
       <img :src="imgShowA" alt="Shop Image" width="350" />
     </div>
@@ -53,6 +57,10 @@ export default {
       VITE_LIFF_ID_LOGIN: null,
       VITE_LINE_CHAT_BOT: null,
       VITE_URI: 'https://schoolshopliffweb.onrender.com',
+      // url: process.env.VITE_LIFF_LOGIN_URL,
+      // _clientId: 'YOUR_CLIENT_ID',
+      // _clientSecret: 'YOUR_CLIENT_SECRET',
+      // _api_sendMessage: process.env.VITE_API_URL + '/send-message',
     }
   },
   methods: {
@@ -81,11 +89,14 @@ export default {
     loginWithQRCode() {
       // const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
       const clientId = this.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      // const clientId = this._VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      // const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_BACKEND_CALLBACK) // ต้องตรงกับที่ลงทะเบียนใน LINE Developers Console
       const redirectUri = encodeURIComponent(this.VITE_APP_LINE_REDIRECT_URI)
-
+      // const redirectUri = encodeURIComponent(this._VITE_APP_BACKEND_CALLBACK)
       const state = 'App123-Cus' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
       const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
-
+      //const uri = 'https://schoolshopliffweb.onrender.com'
+      // const uri = import.meta.env.VITE_APP_LINE_REDIRECT_URI
       const uri = this.VITE_URI
       // const uri = this._VITE_APP_LINE_REDIRECT_URI
       // สร้าง URL สำหรับการล็อกอิน
@@ -98,6 +109,8 @@ export default {
     // lll
     async initializeLIFF() {
       try {
+        // await liff.init({ liffId: '1656824759-KYL5BkQ6' })
+        // await liff.init({ liffId: import.meta.env.VITE_LIFF_ID_LOGIN })
         await liff.init({ liffId: this._VITE_LIFF_ID_LOGIN })
         if (liff.isLoggedIn()) {
           await this.getUserProfile() // Ensure this is awaited to get the result
@@ -142,8 +155,28 @@ export default {
           // update customer data
           this.lineDestination = stateParams.get('lineDestination')
           console.log('getBotUserIdFromUrl lineDestination ', this.lineDestination)
+          // ใช้ line uid find customer id => from GTM data
+          // ใช้ customer id findOneAndUpdate CUSTOMER (line uid, line bot id , line destination)
 
           const customer_id = await this.findCusIdFromGTM(this.line_userId, this.lineDestination, this.botUserId)
+          // this.findCusIdFromGTM(this.line_userId)
+
+          //-> backend +/findAndUpdateLine
+          // const updateLineData = this.findCusIdAndUpdateLineToGTM(
+          //   cusId,
+          //   this.lineDestination,
+          //   this.botUserId,
+          //   this.line_userId
+          // )
+          //
+          // find this.line_userId  => from GTM data => customerID
+          // find customerID  => from CUSTOMER data => customerID
+          // data update= this.line_userId
+          // data update= this.botUserId
+          // data update= this.lineDestination
+          // console.log('update cus data > lineDestination ', this.lineDestination)
+          // console.log('update cus data > botUserId ', this.botUserId)
+          // console.log('update cus data > line_userId ', this.line_userId)
         }
       } catch (err) {
         console.log('err ', err)
@@ -245,6 +278,9 @@ export default {
 
     // Open LINE chat
     openLine() {
+      //window.location.href = 'line://ti/p/@454nqxks'
+
+      // window.location.href = import.meta.env.VITE_LINE_CHAT_BOT
       window.location.href = this.VITE_LINE_CHAT_BOT
 
       // ใช้  this.adsId find db & update lineUid
@@ -365,6 +401,9 @@ export default {
     },
   },
   created() {
+    // this.initializeLIFF()
+    //this.qryStringBotUid = this.$route.query.botUserId
+    // ดึง token จาก URL query string
     const urlParams = new URLSearchParams(window.location.search)
     const token = urlParams.get('token')
 
