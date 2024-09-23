@@ -410,7 +410,7 @@ export default {
     console.log(' this.cus_id ', this.cus_id)
 
     if (this.cus_id) {
-      this.setCookie('adsId', this.cus_id, 7)
+      this.setCookie('cus_id', this.cus_id, 7)
     }
 
     // this.getBotUserIdFromUrl()
