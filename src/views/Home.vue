@@ -281,7 +281,7 @@ export default {
       //window.location.href = 'line://ti/p/@454nqxks'
 
       // window.location.href = import.meta.env.VITE_LINE_CHAT_BOT
-      window.location.href = this._VITE_LINE_CHAT_BOT
+      window.location.href = this.VITE_LINE_CHAT_BOT
 
       // ใช้  this.adsId find db & update lineUid
       const get_adsId_fromCookies = this.getCookie('adsId')
