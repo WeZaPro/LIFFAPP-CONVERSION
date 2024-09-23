@@ -49,6 +49,7 @@ export default {
       adsId_cookieValue: null,
       cus_id: null,
       CustomerData: null,
+      line_messaging_token: null,
       // url: process.env.VITE_LIFF_LOGIN_URL,
       // _clientId: 'YOUR_CLIENT_ID',
       // _clientSecret: 'YOUR_CLIENT_SECRET',
@@ -184,6 +185,8 @@ export default {
 
       this.CustomerData = response_cus_data.data
       console.log('this.CustomerData ', this.CustomerData)
+      this.line_messaging_token = this.CustomerData.line_msg_api_token
+      console.log('this.line_messaging_token ', this.line_messaging_token)
     },
     async findCusIdFromGTM(_line_userId, _lineDestination, _botUserId) {
       // async findCusIdFromGTM(_line_userId) {
