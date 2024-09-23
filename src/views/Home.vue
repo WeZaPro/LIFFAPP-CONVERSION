@@ -180,7 +180,7 @@ export default {
       }
 
       const response_cus_data = await axios.post(`${import.meta.env.VITE_API_URL}/api/customer/searchCusData`, payload)
-      console.log('response_cus_data ', response_cus_data)
+      console.log('response_cus_data ', response_cus_data.data)
     },
     async findCusIdFromGTM(_line_userId, _lineDestination, _botUserId) {
       // async findCusIdFromGTM(_line_userId) {
