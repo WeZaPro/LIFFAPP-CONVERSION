@@ -6,7 +6,7 @@
 
     <div id="app" v-if="botUserId ? botUserId : isVisible">
       <img :src="imgShow" alt="Shop Image" width="350" />
-
+      {{ _userId }}
       <button v-if="!_userId" @click="loginWithQRCode" class="button">Login with LINE</button>
       <button v-if="_userId" @click="openLine" class="button">Line Chat</button>
       <button v-if="_userId" @click="logout" class="button">Logout</button>
