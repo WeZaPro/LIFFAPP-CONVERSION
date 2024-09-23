@@ -86,15 +86,15 @@ export default {
         })
     },
     loginWithQRCode() {
-      // const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
-      const clientId = this._VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
-      // const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_BACKEND_CALLBACK) // ต้องตรงกับที่ลงทะเบียนใน LINE Developers Console
-      const redirectUri = encodeURIComponent(this._VITE_APP_BACKEND_CALLBACK)
+      const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      // const clientId = this._VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_BACKEND_CALLBACK) // ต้องตรงกับที่ลงทะเบียนใน LINE Developers Console
+      // const redirectUri = encodeURIComponent(this._VITE_APP_BACKEND_CALLBACK)
       const state = 'App123-Cus' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
       const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
       //const uri = 'https://schoolshopliffweb.onrender.com'
-      // const uri = import.meta.env.VITE_APP_LINE_REDIRECT_URI
-      const uri = this._VITE_APP_LINE_REDIRECT_URI
+      const uri = import.meta.env.VITE_APP_LINE_REDIRECT_URI
+      // const uri = this._VITE_APP_LINE_REDIRECT_URI
       // สร้าง URL สำหรับการล็อกอิน
       const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
 
