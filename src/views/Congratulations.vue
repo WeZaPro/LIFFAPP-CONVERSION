@@ -32,7 +32,7 @@ export default {
       line_userId: null,
       isVisible: true, // ค่าเริ่มต้นแสดง div เมื่อ botuser มีค่า
       inVisible: false, // ค่าเริ่มต้นซ่อน div เมื่อ botuser ไม่มีค่า
-      imgShowA: 'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg',
+      imgShow: 'https://www.doctorgarn.com/wp-content/uploads/2024/01/bg4-03.png',
       imgShow: 'https://storage.googleapis.com/blogs-images-new/ciscoblogs/1/bot.jpg',
       imgBanner: 'https://www.doctorgarn.com/wp-content/uploads/2024/01/font-2.png',
       _profile: {},
