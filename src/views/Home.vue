@@ -47,6 +47,7 @@ export default {
       accessToken: null,
       adsId: null,
       adsId_cookieValue: null,
+      cus_id: null,
       // url: process.env.VITE_LIFF_LOGIN_URL,
       // _clientId: 'YOUR_CLIENT_ID',
       // _clientSecret: 'YOUR_CLIENT_SECRET',
@@ -171,6 +172,15 @@ export default {
       } catch (err) {
         console.log('err ', err)
       }
+    },
+    async findCusDataFromCustomer() {
+      const payload = {
+        cus_id: this.cus_id,
+        // line_user_id: 'U634375582d774e1c8ce69c31f6f1ba48',
+      }
+
+      const response_cus_data = await axios.post(`${import.meta.env.VITE_API_URL}/api/customer/searchCusData`, payload)
+      console.log('response_cus_data ', response_cus_data)
     },
     async findCusIdFromGTM(_line_userId, _lineDestination, _botUserId) {
       // async findCusIdFromGTM(_line_userId) {
@@ -371,6 +381,13 @@ export default {
     const urlParams = new URLSearchParams(window.location.search)
     const token = urlParams.get('token')
 
+    this.cus_id = this.getQueryParam('cus_id')
+    console.log(' this.cus_id ', this.cus_id)
+
+    if (this.cus_id) {
+      this.setCookie('adsId', this.cus_id, 7)
+    }
+
     // this.getBotUserIdFromUrl()
 
     if (token) {
@@ -385,6 +402,7 @@ export default {
 
     // this.updateLineBotUserId()
     this.getBotUserIdFromUrl()
+    this.findCusDataFromCustomer()
     // console.log('VITE_LIFF_ID ', import.meta.env.VITE_LIFF_ID_LOGIN)
     this.lineUid_fromToken = Cookies.get('_userId')
     if (this.lineUid_fromToken) {
