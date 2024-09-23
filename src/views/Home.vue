@@ -183,8 +183,9 @@ export default {
       }
     },
     async findCusDataFromCustomer() {
+      const _cus_id = Cookies.get('cus_id')
       const payload = {
-        cus_id: this.cus_id,
+        cus_id: _cus_id,
         // line_user_id: 'U634375582d774e1c8ce69c31f6f1ba48',
       }
 
