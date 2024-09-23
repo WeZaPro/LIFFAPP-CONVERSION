@@ -86,9 +86,11 @@ export default {
         })
     },
     loginWithQRCode() {
-      const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      // const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      const clientId = '1656824759' // Channel ID ของคุณ
       // const clientId = this._VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
-      const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_BACKEND_CALLBACK) // ต้องตรงกับที่ลงทะเบียนใน LINE Developers Console
+      // const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_BACKEND_CALLBACK) // ต้องตรงกับที่ลงทะเบียนใน LINE Developers Console
+      const redirectUri = encodeURIComponent('https://node-conv-api-production.up.railway.app/callback')
       // const redirectUri = encodeURIComponent(this._VITE_APP_BACKEND_CALLBACK)
       const state = 'App123-Cus' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
       const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
