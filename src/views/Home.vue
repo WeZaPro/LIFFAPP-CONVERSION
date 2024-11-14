@@ -27,6 +27,9 @@ import Cookies from 'js-cookie'
 export default {
   data() {
     return {
+      userAgent: '',
+      isDesktop: false,
+      //
       checkOS: '',
       lineDestination: null,
       botUserId: null,
@@ -57,6 +60,12 @@ export default {
     }
   },
   methods: {
+    checkIfDesktop() {
+      this.userAgent = navigator.userAgent.toLowerCase()
+      this.isDesktop = !/mobile|android|iphone|ipad|tablet/.test(userAgent)
+      console.log('userAgent ==>  ', this.userAgent)
+      console.log('isDesktop ==>  ', this.isDesktop)
+    },
     toggleVisibility() {
       this.isVisible = !this.isVisible // สลับการแสดง/ซ่อน
     },
@@ -393,7 +402,8 @@ export default {
     }
   },
   mounted() {
-    // get customer data ******************
+    // check isDesktop ******************
+    this.checkIfDesktop()
 
     // this.updateLineBotUserId()
     this.getBotUserIdFromUrl()
