@@ -73,6 +73,7 @@ export default {
           Cookies.set('_userId', this._userId, { expires: 7, path: '/' })
           // this.lineUid = userId
           console.log('LINE _userId ID:', this._userId)
+          console.log('GET OS ----> :', liff.getOS())
         })
         .catch(error => {
           console.error('Error fetching user profile:', error)
