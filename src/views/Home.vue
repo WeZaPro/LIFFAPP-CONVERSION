@@ -241,6 +241,7 @@ export default {
         const profile = await liff.getProfile()
         this.userId = profile.userId
         console.log('userId ', this.userId)
+        console.log('get os---> ',liff.getOS())
         this._profilePictureUrl = profile.pictureUrl
         this.setCookie('userId', this.userId, 7)
       } catch (error) {
