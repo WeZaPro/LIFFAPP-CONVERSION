@@ -91,12 +91,10 @@ export default {
       // const uri = this._VITE_APP_LINE_REDIRECT_URI
       // สร้าง URL สำหรับการล็อกอิน By Email
       const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
-      
+      //-----
       // login with qrcode
       // const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
-      
-      
-      
+
       // ทำ redirect ไปยัง URL การล็อกอิน
       window.location.href = lineLoginUrl
     },
@@ -242,7 +240,7 @@ export default {
         const profile = await liff.getProfile()
         this.userId = profile.userId
         console.log('userId ', this.userId)
-        console.log('get os---> ',liff.getOS())
+        console.log('get os---> ', liff.getOS())
         this._profilePictureUrl = profile.pictureUrl
         this.setCookie('userId', this.userId, 7)
       } catch (error) {
