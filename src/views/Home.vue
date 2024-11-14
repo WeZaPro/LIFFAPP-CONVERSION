@@ -27,6 +27,7 @@ import Cookies from 'js-cookie'
 export default {
   data() {
     return {
+      checkOS: '',
       lineDestination: null,
       botUserId: null,
       line_userId: null,
@@ -72,14 +73,16 @@ export default {
           // ตั้งค่า cookie ด้วย js-cookie
           Cookies.set('_userId', this._userId, { expires: 7, path: '/' })
           // this.lineUid = userId
+          this.checkOS = liff.getOS()
           console.log('LINE _userId ID:', this._userId)
-          console.log('GET OS ----> :', liff.getOS())
+          console.log('getLineUserProfile-this.checkOS ----> :', this.checkOS)
         })
         .catch(error => {
           console.error('Error fetching user profile:', error)
         })
     },
     loginWithQRCode() {
+      console.log('loginWithQRCode-this.checkOS ----> :', this.checkOS)
       // const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
       const clientId = this.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
       const redirectUri = encodeURIComponent(this.VITE_APP_LINE_REDIRECT_URI)
