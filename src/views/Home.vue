@@ -62,7 +62,7 @@ export default {
   methods: {
     checkIfDesktop() {
       this.userAgent = navigator.userAgent.toLowerCase()
-      this.isDesktop = !/mobile|android|iphone|ipad|tablet/.test(userAgent)
+      this.isDesktop = !/mobile|android|iphone|ipad|tablet/.test(this.userAgent)
       console.log('userAgent ==>  ', this.userAgent)
       console.log('isDesktop ==>  ', this.isDesktop)
     },
