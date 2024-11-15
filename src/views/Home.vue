@@ -64,14 +64,13 @@ export default {
   methods: {
     checkIfDesktop() {
       //init
-      const clientId = this.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      const clientId = 1656824759 //this.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
       const redirectUri = encodeURIComponent(this.VITE_APP_LINE_REDIRECT_URI)
 
       const state = 'App123-Cus' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
       const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
 
       const uri = this.VITE_URI
-
       //
       this.userAgent = navigator.userAgent.toLowerCase()
       this.isDesktop = !/mobile|android|iphone|ipad|tablet/.test(this.userAgent)
