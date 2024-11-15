@@ -18,7 +18,7 @@ VITE_LINE_CHAT_BOT=line://ti/p/@454nqxks
    Callback URL=https://node-conv-api-production.up.railway.app/callback (backend)
 
 4.backend = node-conv-api-production.up.railway.app
-(git=https://github.com/WeZaPro/NODE-CONV-API)
+(git=https://github.com/WeZaPro/NODE-CONV-API-V3)
 .env=>
 channelSecret=ed8d53f3b3d65b4f30a12af005f0a510
 clientId=1656824759
