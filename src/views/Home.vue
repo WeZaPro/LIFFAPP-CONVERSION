@@ -63,16 +63,24 @@ export default {
   },
   methods: {
     checkIfDesktop() {
+      //init
+      const clientId = this.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      const redirectUri = encodeURIComponent(this.VITE_APP_LINE_REDIRECT_URI)
+
+      const state = 'App123-Cus' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
+      const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
+
+      const uri = this.VITE_URI
+
+      //
       this.userAgent = navigator.userAgent.toLowerCase()
       this.isDesktop = !/mobile|android|iphone|ipad|tablet/.test(this.userAgent)
       console.log('userAgent ==>  ', this.userAgent)
       console.log('isDesktop ==>  ', this.isDesktop)
       if (this.isDesktop == true) {
-        this.lineLinkLogin =
-          'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr'
+        this.lineLinkLogin = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
       } else {
-        this.lineLinkLogin =
-          'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent'
+        this.lineLinkLogin = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
       }
     },
     toggleVisibility() {
