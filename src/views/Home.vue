@@ -109,8 +109,11 @@ export default {
     loginWithQRCode() {
       console.log('loginWithQRCode-this.checkOS ----> :', this.checkOS)
       //const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
-      const clientId = '1656824759' //this.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
-      const redirectUri = encodeURIComponent(this.VITE_APP_LINE_REDIRECT_URI)
+      //
+      // const clientId = this.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      // const redirectUri = encodeURIComponent(this.VITE_APP_LINE_REDIRECT_URI)
+      const clientId = '1656824759' // Channel ID ของคุณ
+      const redirectUri = encodeURIComponent('https://schoolshopliffweb.onrender.com')
 
       const state = 'App123-Cus' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
       const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
