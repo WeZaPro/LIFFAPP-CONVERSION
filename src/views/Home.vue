@@ -388,7 +388,7 @@ export default {
   },
   mounted() {
     // get customer data ******************
-
+    console.log('this._userId ', this._userId)
     // this.updateLineBotUserId()
     this.getBotUserIdFromUrl()
     this.findCusDataFromCustomer()
