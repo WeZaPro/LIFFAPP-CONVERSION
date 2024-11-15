@@ -108,7 +108,7 @@ export default {
     },
     loginWithQRCode() {
       console.log('loginWithQRCode-this.checkOS ----> :', this.checkOS)
-      console.log('import.meta.env.VITE_APP_LINE_CHANNEL_ID ----> :', import.meta.env.VITE_APP_LINE_CHANNEL_ID)
+
       //const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
       //
       // const clientId = this.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
@@ -425,7 +425,8 @@ export default {
   mounted() {
     // check isDesktop ******************
     this.checkIfDesktop()
-    console.log('client id --> ', this.VITE_APP_LINE_CHANNEL_ID)
+    console.log('import.meta.env.VITE_APP_LINE_CHANNEL_ID --> ', import.meta.env.VITE_APP_LINE_CHANNEL_ID)
+    console.log('import.meta.env.VITE_APP_LINE_REDIRECT_URI --> ', import.meta.env.VITE_APP_LINE_REDIRECT_URI)
 
     // this.updateLineBotUserId()
     this.getBotUserIdFromUrl()
