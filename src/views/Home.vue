@@ -67,6 +67,7 @@ export default {
           },
         })
         .then(response => {
+          console.log('getLineUserProfile => response ', response)
           this._userId = response.data.userId
 
           // ตั้งค่า cookie ด้วย js-cookie
