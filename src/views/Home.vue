@@ -27,10 +27,6 @@ import Cookies from 'js-cookie'
 export default {
   data() {
     return {
-      //
-      userAgent: '',
-      isDesktop: false,
-      //
       lineDestination: null,
       botUserId: null,
       line_userId: null,
@@ -71,7 +67,6 @@ export default {
           },
         })
         .then(response => {
-          console.log('getLineUserProfile => response ', response)
           this._userId = response.data.userId
 
           // ตั้งค่า cookie ด้วย js-cookie
@@ -84,11 +79,6 @@ export default {
         })
     },
     loginWithQRCode() {
-      //test
-      this.userAgent = navigator.userAgent.toLowerCase()
-      this.isDesktop = !/mobile|android|iphone|ipad|tablet/.test(this.userAgent)
-      console.log('loginWithQRCode-this.isDesktop ----> :', this.isDesktop)
-
       // const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
       const clientId = this.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
       const redirectUri = encodeURIComponent(this.VITE_APP_LINE_REDIRECT_URI)
@@ -97,18 +87,12 @@ export default {
       const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
 
       const uri = this.VITE_URI
+      // const uri = this._VITE_APP_LINE_REDIRECT_URI
+      // สร้าง URL สำหรับการล็อกอิน
+      const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
 
-      // const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
-      // Login Qrcode
-      const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr` //
       // ทำ redirect ไปยัง URL การล็อกอิน
       window.location.href = lineLoginUrl
-
-      // if (this.isDesktop == true) {
-      //   this.lineLinkLogin = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${_clientId}&redirect_uri=${_redirectUri}&state=${_uri}&scope=${_scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
-      // } else {
-      //   this.lineLinkLogin = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${_clientId}&redirect_uri=${_redirectUri}&state=${_uri}&scope=${_scope}&prompt=consent`
-      // }
     },
     // Initialize LIFF SDK
     // lll
@@ -151,7 +135,9 @@ export default {
 
           // ใช้ URLSearchParams ดึงค่า botUserId จาก liff.state ที่ decode แล้ว
           const stateParams = new URLSearchParams(decodedState)
-          this.botUserId = stateParams.get('botUserId')
+          //this.botUserId = stateParams.get('botUserId')
+          //ads_id
+          this.botUserId = stateParams.get('ads_id')
           console.log('getBotUserIdFromUrl botUserId ', this.botUserId)
           this.updateLineBotUserId(this.botUserId)
 
@@ -402,7 +388,7 @@ export default {
   },
   mounted() {
     // get customer data ******************
-    console.log('this._userId ', this._userId)
+
     // this.updateLineBotUserId()
     this.getBotUserIdFromUrl()
     this.findCusDataFromCustomer()
