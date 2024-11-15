@@ -129,8 +129,16 @@ export default {
       // login with qrcode
       // const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
 
+      const login_url = ''
+
+      if (this.checkOS == true) {
+        login_url = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
+      } else {
+        login_url = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
+      }
+
       // ทำ redirect ไปยัง URL การล็อกอิน
-      window.location.href = lineLoginUrl
+      window.location.href = login_url
       // window.location.href = this.lineLinkLogin
     },
     // Initialize LIFF SDK
