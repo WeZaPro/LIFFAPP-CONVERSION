@@ -421,6 +421,7 @@ export default {
   mounted() {
     // check isDesktop ******************
     this.checkIfDesktop()
+    console.log('client id --> ', this.VITE_APP_LINE_CHANNEL_ID)
 
     // this.updateLineBotUserId()
     this.getBotUserIdFromUrl()
