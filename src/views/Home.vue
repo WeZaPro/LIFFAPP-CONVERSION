@@ -9,7 +9,7 @@
       {{ _userId }}
       <button v-if="!_userId" @click="loginWithQRCode" class="button">Login with LINE</button>
       <button v-if="_userId" @click="openLine" class="button">Line Chat</button>
-      <button v-if="_userId" @click="logout" class="button">Logout</button>
+      <!-- <button v-if="_userId" @click="logout" class="button">Logout</button> -->
       <img :src="imgBanner" alt="Shop Image" width="300" />
     </div>
 
@@ -27,12 +27,6 @@ import Cookies from 'js-cookie'
 export default {
   data() {
     return {
-      lineLinkLogin: '',
-      //
-      userAgent: '',
-      isDesktop: false,
-      //
-      checkOS: '',
       lineDestination: null,
       botUserId: null,
       line_userId: null,
@@ -62,26 +56,6 @@ export default {
     }
   },
   methods: {
-    checkIfDesktop() {
-      //init
-      // const _clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
-      // const _redirectUri = encodeURIComponent(import.meta.env.VITE_APP_LINE_REDIRECT_URI)
-
-      // const state = 'App123-Cus' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
-      // const _scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
-
-      // const _uri = this.VITE_URI
-      //
-      this.userAgent = navigator.userAgent.toLowerCase()
-      this.isDesktop = !/mobile|android|iphone|ipad|tablet/.test(this.userAgent)
-      // console.log('userAgent ==>  ', this.userAgent)
-      // console.log('isDesktop ==>  ', this.isDesktop)
-      // if (this.isDesktop == true) {
-      //   this.lineLinkLogin = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${_clientId}&redirect_uri=${_redirectUri}&state=${_uri}&scope=${_scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
-      // } else {
-      //   this.lineLinkLogin = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${_clientId}&redirect_uri=${_redirectUri}&state=${_uri}&scope=${_scope}&prompt=consent`
-      // }
-    },
     toggleVisibility() {
       this.isVisible = !this.isVisible // สลับการแสดง/ซ่อน
     },
@@ -98,60 +72,35 @@ export default {
           // ตั้งค่า cookie ด้วย js-cookie
           Cookies.set('_userId', this._userId, { expires: 7, path: '/' })
           // this.lineUid = userId
-          this.checkOS = liff.getOS()
           console.log('LINE _userId ID:', this._userId)
-          console.log('getLineUserProfile-this.checkOS ----> :', this.checkOS)
         })
         .catch(error => {
           console.error('Error fetching user profile:', error)
         })
     },
     loginWithQRCode() {
-      this.userAgent = navigator.userAgent.toLowerCase()
-      this.isDesktop = !/mobile|android|iphone|ipad|tablet/.test(this.userAgent)
-      console.log('loginWithQRCode-this.isDesktop ----> :', this.isDesktop)
-
-      const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
-      const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_LINE_REDIRECT_URI)
-      //const redirectUri = encodeURIComponent('https://c846-171-5-183-34.ngrok-free.app')
-
-      //
-      // const clientId = this.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
-      // const redirectUri = encodeURIComponent(this.VITE_APP_LINE_REDIRECT_URI)
-      // const clientId = '1656824759' // Channel ID ของคุณ
-      // const redirectUri = encodeURIComponent('https://schoolshopliffweb.onrender.com')
+      // const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      const clientId = this.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      const redirectUri = encodeURIComponent(this.VITE_APP_LINE_REDIRECT_URI)
 
       const state = 'App123-Cus' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
       const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
 
       const uri = this.VITE_URI
-      // const lineLoginUrl = this.lineLinkLogin
       // const uri = this._VITE_APP_LINE_REDIRECT_URI
-      // สร้าง URL สำหรับการล็อกอิน By Email
-      const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
-      //-----
-      // login with qrcode
-      // const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
-
-      // const login_url = ''
-
-      // if (this.isDesktop === true) {
-      //   console.log('isDesktop = true')
-      //   window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
-      // } else {
-      //   console.log('isDesktop = false')
-      //   window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
-      // }
+      // สร้าง URL สำหรับการล็อกอิน email
+      // const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
+      // Login Qrcode
+      const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr` //
 
       // ทำ redirect ไปยัง URL การล็อกอิน
       window.location.href = lineLoginUrl
-      // window.location.href = this.lineLinkLogin
     },
     // Initialize LIFF SDK
     // lll
     async initializeLIFF() {
       try {
-        await liff.init({ liffId: import.meta.env._VITE_LIFF_ID_LOGIN })
+        await liff.init({ liffId: this._VITE_LIFF_ID_LOGIN })
         if (liff.isLoggedIn()) {
           await this.getUserProfile() // Ensure this is awaited to get the result
           // console.log('User ID:', this.userId) // This will print the userId
@@ -289,7 +238,6 @@ export default {
         const profile = await liff.getProfile()
         this.userId = profile.userId
         console.log('userId ', this.userId)
-        console.log('get os---> ', liff.getOS())
         this._profilePictureUrl = profile.pictureUrl
         this.setCookie('userId', this.userId, 7)
       } catch (error) {
@@ -439,12 +387,7 @@ export default {
     }
   },
   mounted() {
-    // liff.init({ liffId: import.meta.env._VITE_LIFF_ID_LOGIN })
-    // liff.init({ liffId: '1656824759-voa8qrGY' })
-    // console.log('liff.isLoggedIn() ', liff.isLoggedIn())
-
-    // check isDesktop ******************
-    // this.checkIfDesktop()
+    // get customer data ******************
 
     // this.updateLineBotUserId()
     this.getBotUserIdFromUrl()
@@ -466,28 +409,28 @@ export default {
 </script>
 
 <!-- <style>
-  .button {
-    display: inline-block;
-    padding: 12px 24px;
-    margin: 10px;
-    font-size: 16px;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-  }
-  
-  .button:hover {
-    background-color: #0056b3;
-  }
-  
-  .expanded-button {
-    width: 100%;
-  }
-  </style> -->
+.button {
+  display: inline-block;
+  padding: 12px 24px;
+  margin: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.expanded-button {
+  width: 100%;
+}
+</style> -->
 
 <style scoped>
 .container {
