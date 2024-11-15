@@ -9,7 +9,7 @@
       {{ _userId }}
       <button v-if="!_userId" @click="loginWithQRCode" class="button">Login with LINE</button>
       <button v-if="_userId" @click="openLine" class="button">Line Chat</button>
-      <!-- <button v-if="_userId" @click="logout" class="button">Logout</button> -->
+      <button v-if="_userId" @click="logout" class="button">Logout</button>
       <img :src="imgBanner" alt="Shop Image" width="300" />
     </div>
 
@@ -441,6 +441,7 @@ export default {
     // this.checkIfDesktop()
     console.log('VITE_APP_LINE_CHANNEL_ID --> ', import.meta.env.VITE_APP_LINE_CHANNEL_ID)
     console.log('VITE_APP_LINE_REDIRECT_URI --> ', import.meta.env.VITE_APP_LINE_REDIRECT_URI)
+    console.log('liff.isLoggedIn() --> ', liff.isLoggedIn())
 
     // this.updateLineBotUserId()
     this.getBotUserIdFromUrl()
