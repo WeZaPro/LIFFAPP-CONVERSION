@@ -130,8 +130,8 @@ export default {
       // const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
 
       // ทำ redirect ไปยัง URL การล็อกอิน
-      //window.location.href = lineLoginUrl
-      window.location.href = this.lineLinkLogin
+      window.location.href = lineLoginUrl
+      // window.location.href = this.lineLinkLogin
     },
     // Initialize LIFF SDK
     // lll
