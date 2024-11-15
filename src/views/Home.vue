@@ -437,8 +437,8 @@ export default {
     }
   },
   mounted() {
-    //liff.init({ liffId: import.meta.env._VITE_LIFF_ID_LOGIN })
-    liff.init({ liffId: '1656824759-voa8qrGY' })
+    liff.init({ liffId: import.meta.env._VITE_LIFF_ID_LOGIN })
+    // liff.init({ liffId: '1656824759-voa8qrGY' })
     console.log('liff.isLoggedIn() ', liff.isLoggedIn())
 
     // check isDesktop ******************
