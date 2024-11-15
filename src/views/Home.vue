@@ -27,6 +27,8 @@ import Cookies from 'js-cookie'
 export default {
   data() {
     return {
+      lineLinkLogin: '',
+      //
       userAgent: '',
       isDesktop: false,
       //
@@ -65,6 +67,13 @@ export default {
       this.isDesktop = !/mobile|android|iphone|ipad|tablet/.test(this.userAgent)
       console.log('userAgent ==>  ', this.userAgent)
       console.log('isDesktop ==>  ', this.isDesktop)
+      if (this.isDesktop == true) {
+        this.lineLinkLogin =
+          'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr'
+      } else {
+        this.lineLinkLogin =
+          'https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent'
+      }
     },
     toggleVisibility() {
       this.isVisible = !this.isVisible // สลับการแสดง/ซ่อน
@@ -100,9 +109,10 @@ export default {
       const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
 
       const uri = this.VITE_URI
+      const lineLoginUrl = this.lineLinkLogin
       // const uri = this._VITE_APP_LINE_REDIRECT_URI
       // สร้าง URL สำหรับการล็อกอิน By Email
-      const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
+      // const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
       //-----
       // login with qrcode
       // const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
