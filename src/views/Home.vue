@@ -107,7 +107,9 @@ export default {
         })
     },
     loginWithQRCode() {
-      console.log('loginWithQRCode-this.isDesktop ----> :', this.isDesktopS)
+      this.userAgent = navigator.userAgent.toLowerCase()
+      this.isDesktop = !/mobile|android|iphone|ipad|tablet/.test(this.userAgent)
+      console.log('loginWithQRCode-this.isDesktop ----> :', this.isDesktop)
 
       const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
       const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_LINE_REDIRECT_URI)
@@ -434,7 +436,7 @@ export default {
   },
   mounted() {
     // check isDesktop ******************
-    this.checkIfDesktop()
+    // this.checkIfDesktop()
     console.log('VITE_APP_LINE_CHANNEL_ID --> ', import.meta.env.VITE_APP_LINE_CHANNEL_ID)
     console.log('VITE_APP_LINE_REDIRECT_URI --> ', import.meta.env.VITE_APP_LINE_REDIRECT_URI)
 
