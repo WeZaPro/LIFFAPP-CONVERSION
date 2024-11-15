@@ -131,7 +131,7 @@ export default {
 
       // ทำ redirect ไปยัง URL การล็อกอิน
       //window.location.href = lineLoginUrl
-      window.location.href = lineLinkLogin
+      window.location.href = this.lineLinkLogin
     },
     // Initialize LIFF SDK
     // lll
