@@ -113,6 +113,8 @@ export default {
 
       const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
       const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_LINE_REDIRECT_URI)
+      //const redirectUri = encodeURIComponent('https://c846-171-5-183-34.ngrok-free.app')
+
       //
       // const clientId = this.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
       // const redirectUri = encodeURIComponent(this.VITE_APP_LINE_REDIRECT_URI)
@@ -133,16 +135,16 @@ export default {
 
       // const login_url = ''
 
-      if (this.isDesktop === true) {
-        console.log('isDesktop = true')
-        window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
-      } else {
-        console.log('isDesktop = false')
-        window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
-      }
+      // if (this.isDesktop === true) {
+      //   console.log('isDesktop = true')
+      //   window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
+      // } else {
+      //   console.log('isDesktop = false')
+      //   window.location.href = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
+      // }
 
       // ทำ redirect ไปยัง URL การล็อกอิน
-      // window.location.href = lineLoginUrl
+      window.location.href = lineLoginUrl
       // window.location.href = this.lineLinkLogin
     },
     // Initialize LIFF SDK
@@ -437,9 +439,9 @@ export default {
     }
   },
   mounted() {
-    liff.init({ liffId: import.meta.env._VITE_LIFF_ID_LOGIN })
+    // liff.init({ liffId: import.meta.env._VITE_LIFF_ID_LOGIN })
     // liff.init({ liffId: '1656824759-voa8qrGY' })
-    console.log('liff.isLoggedIn() ', liff.isLoggedIn())
+    // console.log('liff.isLoggedIn() ', liff.isLoggedIn())
 
     // check isDesktop ******************
     // this.checkIfDesktop()
