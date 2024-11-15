@@ -1,0 +1,33 @@
+TEST 1.https://schoolshop-weba.onrender.com
+(git=https://github.com/WeZaPro/schoolShop-WebA/tree/main)
+กดปุ่ม มีส่ง param ไป
+
+2.https://liff.line.me/1656824759-voa8qrGY (https://schoolshopliffweb.onrender.com)
+(git = https://github.com/WeZaPro/LIFFAPP-CONVERSION/tree/main)
+.env = >
+VITE_API_URL=https://node-conv-api-production.up.railway.app
+VITE_APP_BACKEND_CALLBACK=https://node-conv-api-production.up.railway.app/callback
+VITE_APP_LINE_CHANNEL_ID=1656824759
+VITE_APP_LINE_REDIRECT_URI=https://schoolshopliffweb.onrender.com
+VITE_LIFF_ID_CHAT=1656824759-j1N4MAYk
+VITE_LIFF_ID_LOGIN=1656824759-KYL5BkQ6
+VITE_LINE_CHAT_BOT=line://ti/p/@454nqxks
+
+3. line set
+   Endpoint URL=https://schoolshopliffweb.onrender.com (frontend)
+   Callback URL=https://node-conv-api-production.up.railway.app/callback (backend)
+
+4.backend = node-conv-api-production.up.railway.app
+(git=https://github.com/WeZaPro/NODE-CONV-API)
+.env=>
+channelSecret=ed8d53f3b3d65b4f30a12af005f0a510
+clientId=1656824759
+liffChat=https://liff.line.me/1656824759-KYL5BkQ6
+LINE_CHANNEL_ACCESS_TOKEN=tvb2bkJUvF5ZbSzAf9WDSmfwbwRDxI/2Nlw1TROa2XbaSAXdySiT1w4OvRQrTWPcZXSWvNn1cwlZtBkjly5fhhubxbIXzxZ5sAqnk0644k4l1ShKzP2MXJxZ50Wd1L0d1Yba6vX1JVDQYA/EBH2DbgdB04t89/1O/w1cDnyilFU=
+MONGODBONLINE=mongodb+srv://Conversion:CgKBo4mYiE0VXWvG@cluster0.glzp6c8.mongodb.net/conversion
+redirectUri=https://node-conv-api-production.up.railway.app/callback
+
+5.mongodb
+
+- mongodb+srv://Conversion:CgKBo4mYiE0VXWvG@cluster0.glzp6c8.mongodb.net/conversion (ใช้ตัวนี้)
+- mongodb+srv://Taweesak9359:pjTMKP31fFPcUNgZ@cluster0.glzp6c8.mongodb.net/conv

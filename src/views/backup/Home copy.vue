@@ -1,15 +1,15 @@
 <template>
   <div id="container">
-    <div id="app" v-if="botUserId ? botUserId : inVisible">
-      <img :src="imgShowA" alt="Shop Image" width="350" />
-    </div>
-
-    <div id="app" v-if="botUserId ? botUserId : isVisible">
+    <!-- <h1>Login with LINE and Send Message</h1>
+    <h3>LINE User ID: {{ userId }}</h3> -->
+    <!-- <img v-if="userId" :src="imgShow" alt="Shop Image" width="300" />
+    <img v-if="userId" :src="imgBanner" alt="Shop Image" width="300" /> -->
+    <div id="app">
       <img :src="imgShow" alt="Shop Image" width="350" />
-      {{ _userId }}
+
       <button v-if="!_userId" @click="loginWithQRCode" class="button">Login with LINE</button>
       <button v-if="_userId" @click="openLine" class="button">Line Chat</button>
-      <!-- <button v-if="_userId" @click="logout" class="button">Logout</button> -->
+      <button v-if="_userId" @click="logout" class="button">Logout</button>
       <img :src="imgBanner" alt="Shop Image" width="300" />
     </div>
 
@@ -27,13 +27,8 @@ import Cookies from 'js-cookie'
 export default {
   data() {
     return {
-      lineDestination: null,
-      botUserId: null,
-      line_userId: null,
-      isVisible: true, // ค่าเริ่มต้นแสดง div เมื่อ botuser มีค่า
-      inVisible: false, // ค่าเริ่มต้นซ่อน div เมื่อ botuser ไม่มีค่า
-      imgShow: 'https://www.doctorgarn.com/wp-content/uploads/2024/01/bg4-03.png',
-
+      imgShow:
+        'https://png.pngtree.com/png-vector/20220707/ourmid/pngtree-chatbot-robot-concept-chat-bot-png-image_5632381.png',
       imgBanner: 'https://www.doctorgarn.com/wp-content/uploads/2024/01/font-2.png',
       _profile: {},
       _profilePictureUrl: '',
@@ -43,22 +38,13 @@ export default {
       accessToken: null,
       adsId: null,
       adsId_cookieValue: null,
-      cus_id: null,
-      CustomerData: null,
-      line_messaging_token: null,
-
-      VITE_APP_LINE_CHANNEL_ID: null,
-      VITE_APP_BACKEND_CALLBACK: null,
-      VITE_APP_LINE_REDIRECT_URI: null,
-      VITE_LIFF_ID_LOGIN: null,
-      VITE_LINE_CHAT_BOT: null,
-      VITE_URI: 'https://schoolshopliffweb.onrender.com',
+      // url: process.env.VITE_LIFF_LOGIN_URL,
+      // _clientId: 'YOUR_CLIENT_ID',
+      // _clientSecret: 'YOUR_CLIENT_SECRET',
+      // _api_sendMessage: process.env.VITE_API_URL + '/send-message',
     }
   },
   methods: {
-    toggleVisibility() {
-      this.isVisible = !this.isVisible // สลับการแสดง/ซ่อน
-    },
     getLineUserProfile(token) {
       axios
         .get('https://api.line.me/v2/profile', {
@@ -67,7 +53,6 @@ export default {
           },
         })
         .then(response => {
-          console.log('getLineUserProfile => response ', response)
           this._userId = response.data.userId
 
           // ตั้งค่า cookie ด้วย js-cookie
@@ -80,19 +65,20 @@ export default {
         })
     },
     loginWithQRCode() {
-      // const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
-      const clientId = this.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
-      const redirectUri = encodeURIComponent(this.VITE_APP_LINE_REDIRECT_URI)
+      // const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${
+      //   import.meta.env.VITE_APP_LINE_CHANNEL_ID
+      // }&redirect_uri=${
+      //   import.meta.env.VITE_APP_LINE_REDIRECT_URI
+      // }&state=randomstring&scope=profile%20openid&prompt=consent`
+      // window.location.href = lineLoginUrl
 
+      const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_BACKEND_CALLBACK) // ต้องตรงกับที่ลงทะเบียนใน LINE Developers Console
       const state = 'App123-Cus' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
       const scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
-
-      const uri = this.VITE_URI
-      // const uri = this._VITE_APP_LINE_REDIRECT_URI
-      // สร้าง URL สำหรับการล็อกอิน email
-      // const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
-      // Login Qrcode
-      const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr` //
+      const uri = 'https://vue-line-liff-conversion.onrender.com'
+      // สร้าง URL สำหรับการล็อกอิน
+      const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
 
       // ทำ redirect ไปยัง URL การล็อกอิน
       window.location.href = lineLoginUrl
@@ -101,7 +87,8 @@ export default {
     // lll
     async initializeLIFF() {
       try {
-        await liff.init({ liffId: this._VITE_LIFF_ID_LOGIN })
+        // await liff.init({ liffId: '1656824759-KYL5BkQ6' })
+        await liff.init({ liffId: import.meta.env.VITE_LIFF_ID_LOGIN })
         if (liff.isLoggedIn()) {
           await this.getUserProfile() // Ensure this is awaited to get the result
           // console.log('User ID:', this.userId) // This will print the userId
@@ -117,105 +104,6 @@ export default {
         }
       } catch (error) {
         console.error('LIFF initialization failed:', error)
-      }
-    },
-    async getBotUserIdFromUrl() {
-      try {
-        // ดึง query string จาก URL
-        const queryString = window.location.search
-        const urlParams = new URLSearchParams(queryString)
-
-        console.log('getBotUserIdFromUrl urlParams ', urlParams)
-
-        // ดึงค่า liff.state จาก URL
-        const liffState = urlParams.get('liff.state')
-        console.log('getBotUserIdFromUrl liffState ', liffState)
-
-        if (liffState) {
-          // Decode ค่าจาก liff.state
-          const decodedState = decodeURIComponent(liffState)
-          console.log('getBotUserIdFromUrl decodedState ', liffState)
-
-          // ใช้ URLSearchParams ดึงค่า botUserId จาก liff.state ที่ decode แล้ว
-          const stateParams = new URLSearchParams(decodedState)
-          this.botUserId = stateParams.get('botUserId')
-          console.log('getBotUserIdFromUrl botUserId ', this.botUserId)
-          this.updateLineBotUserId(this.botUserId)
-
-          // update customer data
-          this.lineDestination = stateParams.get('lineDestination')
-          console.log('getBotUserIdFromUrl lineDestination ', this.lineDestination)
-
-          const customer_id = await this.findCusIdFromGTM(this.line_userId, this.lineDestination, this.botUserId)
-        }
-      } catch (err) {
-        console.log('err ', err)
-      }
-    },
-    async findCusDataFromCustomer() {
-      const _cus_id = Cookies.get('cus_id')
-      const payload = {
-        cus_id: _cus_id,
-        // line_user_id: 'U634375582d774e1c8ce69c31f6f1ba48',
-      }
-
-      const response_cus_data = await axios.post(`${import.meta.env.VITE_API_URL}/api/customer/searchCusData`, payload)
-
-      this.CustomerData = response_cus_data.data
-      console.log('this.CustomerData ', this.CustomerData)
-      this.line_messaging_token = this.CustomerData.line_msg_api_token
-      console.log('*** this.line_messaging_token ', this.line_messaging_token)
-
-      this.VITE_APP_LINE_CHANNEL_ID = this.CustomerData.line_login_channel_id
-      console.log('*** VITE_APP_LINE_CHANNEL_ID ', this.VITE_APP_LINE_CHANNEL_ID)
-
-      this.VITE_LIFF_ID_LOGIN = this.CustomerData.line_liff_login_id
-      console.log('*** VITE_LIFF_ID_LOGIN', this.VITE_LIFF_ID_LOGIN)
-
-      this.VITE_LINE_CHAT_BOT = this.CustomerData.line_OA
-      console.log('*** VITE_LINE_CHAT_BOT ', this.VITE_LINE_CHAT_BOT)
-
-      this.VITE_APP_LINE_REDIRECT_URI = 'https://node-conv-api-production.up.railway.app/callback'
-    },
-    async findCusIdFromGTM(_line_userId, _lineDestination, _botUserId) {
-      // async findCusIdFromGTM(_line_userId) {
-      // console.log('update cus data > line_userId ', _line_userId)
-      const payload = {
-        line_user_id: _line_userId,
-        // line_user_id: 'U634375582d774e1c8ce69c31f6f1ba48',
-      }
-      const response_cus_id = await axios.post(`${import.meta.env.VITE_API_URL}/api/customer/searchCusId`, payload)
-
-      // console.log('response_cus_id ', response_cus_id.data.data)
-      console.log('response_cus_id.data ', response_cus_id.data)
-
-      const _customer_id = response_cus_id.data.data
-      console.log('_customer_id ', _customer_id)
-
-      // รอก่อน *******************
-      if (_customer_id) {
-        this.findCusIdAndUpdateLineToGTM(_customer_id, _lineDestination)
-      }
-
-      // return response_cus_id.data.customer_id
-    },
-
-    async findCusIdAndUpdateLineToGTM(cusid, lineDestination) {
-      console.log('findCusIdAndUpdateLineToGTM >cusid  ', cusid)
-      console.log('findCusIdAndUpdateLineToGTM >lineDestination  ', lineDestination)
-
-      const payload = {
-        customer_id: cusid,
-        line_bot_destination: lineDestination,
-      }
-      //VITE_API_URL
-      try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/customer/findAndUpdateLine`, payload)
-        if (response.data) {
-          console.log(response.data) // Handle response data
-        }
-      } catch (error) {
-        console.error(error) // Handle error
       }
     },
 
@@ -248,7 +136,9 @@ export default {
 
     // Open LINE chat
     openLine() {
-      window.location.href = this.VITE_LINE_CHAT_BOT
+      //window.location.href = 'line://ti/p/@454nqxks'
+
+      window.location.href = import.meta.env.VITE_LINE_CHAT_BOT
 
       // ใช้  this.adsId find db & update lineUid
       const get_adsId_fromCookies = this.getCookie('adsId')
@@ -275,22 +165,6 @@ export default {
         console.log(data)
       } catch (error) {
         console.error('Error sending data:', error)
-      }
-    },
-    async updateLineBotUserId(_botUid) {
-      //
-      this.line_userId = Cookies.get('_userId')
-
-      const payload = {
-        lineUid: this.line_userId,
-        lineBotUid: _botUid,
-      }
-      //VITE_API_URL
-      try {
-        const response = await axios.post(`${import.meta.env.VITE_API_URL}/updateLineBotId`, payload)
-        console.log(response.data) // Handle response data
-      } catch (error) {
-        console.error(error) // Handle error
       }
     },
 
@@ -368,17 +242,11 @@ export default {
     },
   },
   created() {
+    // this.initializeLIFF()
+
+    // ดึง token จาก URL query string
     const urlParams = new URLSearchParams(window.location.search)
     const token = urlParams.get('token')
-
-    this.cus_id = this.getQueryParam('cus_id')
-    console.log(' this.cus_id ', this.cus_id)
-
-    if (this.cus_id) {
-      this.setCookie('cus_id', this.cus_id, 7)
-    }
-
-    // this.getBotUserIdFromUrl()
 
     if (token) {
       // ใช้ token เพื่อเรียก LINE API สำหรับดึงข้อมูลผู้ใช้
@@ -388,11 +256,6 @@ export default {
     }
   },
   mounted() {
-    // get customer data ******************
-    console.log('this._userId ', this._userId)
-    // this.updateLineBotUserId()
-    this.getBotUserIdFromUrl()
-    this.findCusDataFromCustomer()
     // console.log('VITE_LIFF_ID ', import.meta.env.VITE_LIFF_ID_LOGIN)
     this.lineUid_fromToken = Cookies.get('_userId')
     if (this.lineUid_fromToken) {
