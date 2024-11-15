@@ -425,8 +425,8 @@ export default {
   mounted() {
     // check isDesktop ******************
     this.checkIfDesktop()
-    console.log('import.meta.env.VITE_APP_LINE_CHANNEL_ID --> ', import.meta.env.VITE_APP_LINE_CHANNEL_ID)
-    console.log('import.meta.env.VITE_APP_LINE_REDIRECT_URI --> ', import.meta.env.VITE_APP_LINE_REDIRECT_URI)
+    console.log('VITE_APP_LINE_CHANNEL_ID --> ', import.meta.env.VITE_APP_LINE_CHANNEL_ID)
+    console.log('VITE_APP_LINE_REDIRECT_URI --> ', import.meta.env.VITE_APP_LINE_REDIRECT_URI)
 
     // this.updateLineBotUserId()
     this.getBotUserIdFromUrl()
