@@ -64,23 +64,23 @@ export default {
   methods: {
     checkIfDesktop() {
       //init
-      const _clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
-      const _redirectUri = encodeURIComponent(import.meta.env.VITE_APP_LINE_REDIRECT_URI)
+      // const _clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
+      // const _redirectUri = encodeURIComponent(import.meta.env.VITE_APP_LINE_REDIRECT_URI)
 
-      const state = 'App123-Cus' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
-      const _scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
+      // const state = 'App123-Cus' // รหัสสถานะที่คุณสามารถกำหนดได้ (ใช้สำหรับป้องกัน CSRF)
+      // const _scope = encodeURIComponent('profile openid email') // ขอบเขตสิทธิ์ที่คุณต้องการเข้าถึง
 
-      const _uri = this.VITE_URI
+      // const _uri = this.VITE_URI
       //
       this.userAgent = navigator.userAgent.toLowerCase()
       this.isDesktop = !/mobile|android|iphone|ipad|tablet/.test(this.userAgent)
       // console.log('userAgent ==>  ', this.userAgent)
       // console.log('isDesktop ==>  ', this.isDesktop)
-      if (this.isDesktop == true) {
-        this.lineLinkLogin = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${_clientId}&redirect_uri=${_redirectUri}&state=${_uri}&scope=${_scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
-      } else {
-        this.lineLinkLogin = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${_clientId}&redirect_uri=${_redirectUri}&state=${_uri}&scope=${_scope}&prompt=consent`
-      }
+      // if (this.isDesktop == true) {
+      //   this.lineLinkLogin = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${_clientId}&redirect_uri=${_redirectUri}&state=${_uri}&scope=${_scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
+      // } else {
+      //   this.lineLinkLogin = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${_clientId}&redirect_uri=${_redirectUri}&state=${_uri}&scope=${_scope}&prompt=consent`
+      // }
     },
     toggleVisibility() {
       this.isVisible = !this.isVisible // สลับการแสดง/ซ่อน
@@ -107,7 +107,7 @@ export default {
         })
     },
     loginWithQRCode() {
-      console.log('loginWithQRCode-this.checkOS ----> :', this.checkOS)
+      console.log('loginWithQRCode-this.isDesktop ----> :', this.isDesktopS)
 
       const clientId = import.meta.env.VITE_APP_LINE_CHANNEL_ID // Channel ID ของคุณ
       const redirectUri = encodeURIComponent(import.meta.env.VITE_APP_LINE_REDIRECT_URI)
@@ -131,7 +131,7 @@ export default {
 
       const login_url = ''
 
-      if (this.checkOS == true) {
+      if (this.isDesktop == true) {
         login_url = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&prompt=consent`
       } else {
         login_url = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=${uri}&scope=${scope}&bot_prompt=normal&ui_locales=th-TH&disable_auto_login=true&initial_amr_display=lineqr`
